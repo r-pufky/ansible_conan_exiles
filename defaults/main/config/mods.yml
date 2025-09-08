@@ -1,0 +1,25 @@
+---
+###############################################################################
+# Conan Exiles Mods
+###############################################################################
+
+# List of mods to enable.
+#
+# Mods are automatically downloaded and installed. Only listed mods are
+# enabled. Disk space usage is 2x mod size as mods are cached in Steam then
+# staged in dedicated server.
+#
+# Special Case:
+# * Mod list auto regenerated in specified list order.
+#
+# conan_exiles_cfg_mods_list:
+#   - 2723987721
+#   - 1641464108
+#   - 1401061998
+#   - 1716717492
+#   - 864199675
+#   - 2869834350
+#   - 2859016366
+#
+# Default: [] (disabled).
+conan_exiles_cfg_mods_list: []

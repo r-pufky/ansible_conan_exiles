@@ -1,0 +1,50 @@
+---
+# yamllint disable rule:line-length
+###############################################################################
+# Engine.ini Settings
+###############################################################################
+# Only defined values are enforced in the configuration file.
+#
+# conan_exiles_cfg_engine:
+#   - section: str - Section name.
+#     option: str - Option key.
+#     value: any - Option value.
+#     state: str - Option state.
+#         Values:
+#           present: Add/update option.
+#            absent: Remove option.
+#         Default: 'present'.
+#     comment: str - Setting comment. Optional.
+#
+# To enable 'Isle of Siptah' expansion, set the default map. this enables extra
+# options in the ServerSettings configuration:
+#
+#  - section: '/Script/EngineSettings.GameMapsSettings'
+#    option: 'ServerDefaultMap'
+#    value: '/Game/DLC_EXT/DLC_Siptah/Maps/DLC_Isle_of_Siptah'
+#    state: 'present'
+#
+# Reference:
+# * https://conanexiles.fandom.com/wiki/Dedicated_Server_Setup:_Linux_and_Wine#Engine.ini
+# * https://www.conanexiles.com/dedicated-servers/
+# * https://forums.funcom.com/t/hosting-a-dedicated-server-for-isle-of-siptah/136857/4
+
+conan_exiles_cfg_engine:
+  - {section: 'OnlineSubsystem', option: 'ServerName', value: 'Conan Exiles Server'}
+  - {section: 'OnlineSubsystem', option: 'ServerPassword', value: 'changeme'}
+  - {section: 'OnlineSubsystem', option: 'bUseBuildIdOverride', value: true}
+  - {section: 'OnlineSubsystem', option: 'BuildIdOverride', value: 245026036}
+  - {section: 'URL', option: 'Port', value: 7777}
+  - {section: 'OnlineSubsystemNull', option: 'GameServerQueryPort', value: 27015}
+  - {section: '/Script/ConanSandbox.SystemSettings', option: 'ModFileDownload.DownloadPortOffset', value: 0}
+  - {section: '/Script/EngineSettings.GameMapsSettings', option: 'ServerDefaultMap', value: '/Game/DLC_EXT/DLC_Siptah/Maps/DLC_Isle_of_Siptah'}
+  - {section: 'OnlineSubsystem', option: 'bHasVoiceEnabled', value: false}
+  - {section: 'Voice', option: 'bEnabled', value: false}
+  - {section: '/script/onlinesubsystemutils.ipnetdriver', option: 'MaxClientRate', value: 100000}
+  - {section: '/script/onlinesubsystemutils.ipnetdriver', option: 'MaxInternetClientRate', value: 100000}
+  - {section: '[Core.System]', option: 'Paths', value: '../../../Engine/Content'}
+  - {section: '[Core.System]', option: 'Paths', value: '%GAMEDIR%Content'}
+  - {section: '[Core.System]', option: 'Paths', value: '../../../Engine/Plugins/2D/Paper2D/Content'}
+  - {section: '[Core.System]', option: 'Paths', value: '../../../Engine/Plugins/Runtime/HoudiniEngine/Content'}
+  - {section: '[Core.System]', option: 'Paths', value: '../../../ConanSandbox/Plugins/DialoguePlugin/Content'}
+  - {section: '[Core.System]', option: 'Paths', value: '../../../ConanSandbox/Plugins/FuncomLiveServices/Content'}

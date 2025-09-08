@@ -1,0 +1,31 @@
+---
+# yamllint disable rule:line-length
+###############################################################################
+# Game.ini Settings
+###############################################################################
+# Only defined values are enforced in the configuration file.
+#
+# conan_exiles_cfg_game:
+#   - section: str - Section name.
+#     option: str - Option key.
+#     value: any - Option value.
+#     state: str - Option state.
+#         Values:
+#           present: Add/update option.
+#            absent: Remove option.
+#         Default: 'present'.
+#     comment: str - Setting comment. Optional.
+#
+# Reference:
+# * https://conanexiles.fandom.com/wiki/Dedicated_Server_Setup:_Linux_and_Wine#Game.ini
+
+conan_exiles_cfg_game:
+  - {section: 'Settings.Gameplay', option: 'showContextualControls', value: true}
+  - {section: 'Settings.Gameplay', option: 'SendNewItemsToShortcutsWheel', value: true}
+  - {section: 'ConfigManifest', option: 'UpgradedVersions', value: 3}
+  - {section: 'RconPlugin', option: 'RconPort', value: 25575}
+  - {section: '/script/engine.gamenetworkmanager', option: 'TotalNetBandwidth', value: 4000000}
+  - {section: '/script/engine.gamenetworkmanager', option: 'MaxDynamicBandwidth', value: 100000}
+  - {section: '/script/engine.gamenetworkmanager', option: 'MinDynamicBandwidth', value: 40000}
+  - {section: 'Miscellaneous', option: 'inThirdPerson', value: true}
+  - {section: '/script/engine.gamesession', option: 'MaxPlayers', value: 20}

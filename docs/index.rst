@@ -1,30 +1,26 @@
-.. _service-steam:
+.. _service-steam-conan-exiles:
 
-Steam
-#####
-Steam dedicated servers with steamcmd and wine.
-
-.. toctree::
-  :hidden:
-  :maxdepth: -1
-
-  conan_exiles
-  left_4_dead
-  left_4_dead_2
-  satisfactory
-  seven_days_to_die
-  troubleshooting
+Conan Exiles
+############
+`Conan Exiles <https://www.conanexiles.com/>`_ dedicated server on steam.
 
 .. role:: steam
-  :service_doc: https://developer.valvesoftware.com/wiki/SteamCMD
-  :blocking:    Require upstream repo update, wine dependency updates.
+  :service_doc: https://www.conanexiles.com/dedicated-servers/
   :private:
   :update:      2022-10-10
   :open:
 
-  Role handles configuration of all provided games servers. See each game for
-  game-specific documentation.
+  Conan Exiles Isle of Sepitah dedicated server.
+
+  * Role handles all steps that are provided in this documentation.
+  * If connecting on local network, use the private IP of the server, not the
+    public IP address.
+  * ``steam_conan_dir/ConanSandbox/Saved`` contains server state information.
+
+Ports
+*****
+.. literalinclude:: ../defaults/main/conan_exiles/ports.yml
 
 Defaults
 ********
-.. literalinclude:: ../defaults/main/main.yml
+.. literalinclude:: ../defaults/main/conan_exiles/main.yml

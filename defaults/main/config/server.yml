@@ -1,0 +1,350 @@
+---
+# yamllint disable rule:line-length
+###############################################################################
+# ServerSettings.ini Settings
+###############################################################################
+# Only defined values are enforced in the configuration file.
+#
+# conan_exiles_cfg_server:
+#   - section: str - Section name.
+#     option: str - Option key.
+#     value: str - Option value.
+#     state: str - Option state.
+#         Values:
+#           present: Add/update option.
+#            absent: Remove option.
+#         Default: 'present'.
+#     comment: str - Setting comment. Optional.
+#
+# Updated defaults may be found in Config/DefaultServerSettings.ini
+#
+# Reference:
+# * https://conanexiles.fandom.com/wiki/Dedicated_Server_Setup:_Linux_and_Wine#ServerSettings.ini
+# * https://forums.funcom.com/t/hosting-a-dedicated-server-for-isle-of-siptah/136857/4
+
+conan_exiles_cfg_server:
+  - {section: 'ServerSettings', option: 'NPCMindReadingMode', value: 0}
+  - {section: 'ServerSettings', option: 'MaxNudity', value: 0, comment: '2=Full, 1=Partial, 0=None'}
+  - {section: 'ServerSettings', option: 'ServerCommunity', value: 0}
+  - {section: 'ServerSettings', option: 'ConfigVersion', value: 13}
+  - {section: 'ServerSettings', option: 'BlueprintConfigVersion', value: 25}
+  - {section: 'ServerSettings', option: 'BuildingPVPWhitelist', value: '("80901","80111","80112","80915","80912")'}
+  - {section: 'ServerSettings', option: 'PlayerKnockbackMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'NPCKnockbackMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'StructureDamageMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'StructureHealthMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'NPCRespawnMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'NPCHealthMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'PlayerDamageMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'PlayerDamageTakenMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'MinionDamageMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'MinionDamageTakenMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'NPCDamageMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'NPCDamageTakenMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'PlayerEncumbranceMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'PlayerEncumbrancePenaltyMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'PlayerMovementSpeedScale', value: 1.000000}
+  - {section: 'ServerSettings', option: 'PlayerStaminaCostSprintMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'PlayerSprintSpeedScale', value: 1.000000}
+  - {section: 'ServerSettings', option: 'PlayerStaminaCostMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'PlayerHealthRegenSpeedScale', value: 1.000000}
+  - {section: 'ServerSettings', option: 'PlayerXPRateMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'PlayerXPKillMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'PlayerXPHarvestMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'PlayerXPCraftMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'PlayerXPTimeMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'DogsOfTheDesertSpawnWithDogs', value: false}
+  - {section: 'ServerSettings', option: 'CrossDesertOnce', value: true}
+  - {section: 'ServerSettings', option: 'ThrallExclusionRadius', value: 100.000000}
+  - {section: 'ServerSettings', option: 'MaxAggroRange', value: 9000.000000}
+  - {section: 'ServerSettings', option: 'FriendlyFireDamageMultiplier', value: 0.250000}
+  - {section: 'ServerSettings', option: 'CampsIgnoreLandclaim', value: true}
+  - {section: 'ServerSettings', option: 'AvatarDomeDurationMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'AvatarDomeDamageMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'NPCMaxSpawnCapMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'PvPMountEnduranceDamageMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'serverRegion', value: 0, comment: '3=Asia, 2=Americas, 1/0=Europe'}
+  - {section: 'ServerSettings', option: 'AmbientLifeEnabled', value: true}
+  - {section: 'ServerSettings', option: 'PVPEnabled', value: false}
+  - {section: 'ServerSettings', option: 'RestrictPVPTime', value: false}
+  - {section: 'ServerSettings', option: 'RestrictPVPBuildingDamageTime', value: false}
+  - {section: 'ServerSettings', option: 'PVPTimeMondayStart', value: 0}
+  - {section: 'ServerSettings', option: 'PVPTimeTuesdayStart', value: 0}
+  - {section: 'ServerSettings', option: 'PVPTimeWednesdayStart', value: 0}
+  - {section: 'ServerSettings', option: 'PVPTimeThursdayStart', value: 0}
+  - {section: 'ServerSettings', option: 'PVPTimeFridayStart', value: 0}
+  - {section: 'ServerSettings', option: 'PVPTimeSaturdayStart', value: 0}
+  - {section: 'ServerSettings', option: 'PVPTimeSundayStart', value: 0}
+  - {section: 'ServerSettings', option: 'PVPTimeMondayEnd', value: 0}
+  - {section: 'ServerSettings', option: 'PVPTimeTuesdayEnd', value: 0}
+  - {section: 'ServerSettings', option: 'PVPTimeWednesdayEnd', value: 0}
+  - {section: 'ServerSettings', option: 'PVPTimeThursdayEnd', value: 0}
+  - {section: 'ServerSettings', option: 'PVPTimeFridayEnd', value: 0}
+  - {section: 'ServerSettings', option: 'PVPTimeSaturdayEnd', value: 0}
+  - {section: 'ServerSettings', option: 'PVPTimeSundayEnd', value: 0}
+  - {section: 'ServerSettings', option: 'PVPEnabledMonday', value: false}
+  - {section: 'ServerSettings', option: 'PVPEnabledTuesday', value: false}
+  - {section: 'ServerSettings', option: 'PVPEnabledWednesday', value: false}
+  - {section: 'ServerSettings', option: 'PVPEnabledThursday', value: false}
+  - {section: 'ServerSettings', option: 'PVPEnabledFriday', value: false}
+  - {section: 'ServerSettings', option: 'PVPEnabledSaturday', value: false}
+  - {section: 'ServerSettings', option: 'PVPEnabledSunday', value: false}
+  - {section: 'ServerSettings', option: 'PVPBuildingDamageTimeMondayStart', value: 0}
+  - {section: 'ServerSettings', option: 'PVPBuildingDamageTimeTuesdayStart', value: 0}
+  - {section: 'ServerSettings', option: 'PVPBuildingDamageTimeWednesdayStart', value: 0}
+  - {section: 'ServerSettings', option: 'PVPBuildingDamageTimeThursdayStart', value: 0}
+  - {section: 'ServerSettings', option: 'PVPBuildingDamageTimeFridayStart', value: 0}
+  - {section: 'ServerSettings', option: 'PVPBuildingDamageTimeSaturdayStart', value: 0}
+  - {section: 'ServerSettings', option: 'PVPBuildingDamageTimeSundayStart', value: 0}
+  - {section: 'ServerSettings', option: 'PVPBuildingDamageTimeMondayEnd', value: 0}
+  - {section: 'ServerSettings', option: 'PVPBuildingDamageTimeTuesdayEnd', value: 0}
+  - {section: 'ServerSettings', option: 'PVPBuildingDamageTimeWednesdayEnd', value: 0}
+  - {section: 'ServerSettings', option: 'PVPBuildingDamageTimeThursdayEnd', value: 0}
+  - {section: 'ServerSettings', option: 'PVPBuildingDamageTimeFridayEnd', value: 0}
+  - {section: 'ServerSettings', option: 'PVPBuildingDamageTimeSaturdayEnd', value: 0}
+  - {section: 'ServerSettings', option: 'PVPBuildingDamageTimeSundayEnd', value: 0}
+  - {section: 'ServerSettings', option: 'PVPBuildingDamageEnabledMonday', value: false}
+  - {section: 'ServerSettings', option: 'PVPBuildingDamageEnabledTuesday', value: false}
+  - {section: 'ServerSettings', option: 'PVPBuildingDamageEnabledWednesday', value: false}
+  - {section: 'ServerSettings', option: 'PVPBuildingDamageEnabledThursday', value: false}
+  - {section: 'ServerSettings', option: 'PVPBuildingDamageEnabledFriday', value: false}
+  - {section: 'ServerSettings', option: 'PVPBuildingDamageEnabledSaturday', value: false}
+  - {section: 'ServerSettings', option: 'PVPBuildingDamageEnabledSunday', value: false}
+  - {section: 'ServerSettings', option: 'DisableBuildingDuringTimeRestrictedPVP', value: false}
+  - {section: 'ServerSettings', option: 'CombatModeModifier', value: 0}
+  - {section: 'ServerSettings', option: 'ContainersIgnoreOwnership', value: true}
+  - {section: 'ServerSettings', option: 'LandClaimRadiusMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'DisableLandclaimNotifications', value: true}
+  - {section: 'ServerSettings', option: 'BuildingPreloadRadius', value: 80.000000}
+  - {section: 'ServerSettings', option: 'CanDamagePlayerOwnedStructures', value: false}
+  - {section: 'ServerSettings', option: 'DynamicBuildingDamage', value: false}
+  - {section: 'ServerSettings', option: 'DynamicBuildingDamagePeriod', value: 1800}
+  - {section: 'ServerSettings', option: 'CreativeModeServer', value: 0}
+  - {section: 'ServerSettings', option: 'ServerPassword', value: ''}
+  - {section: 'ServerSettings', option: 'ServerMessageOfTheDay', value: ''}
+  - {section: 'ServerSettings', option: 'KickAFKPercentage', value: 80}
+  - {section: 'ServerSettings', option: 'KickAFKTime', value: 2700}
+  - {section: 'ServerSettings', option: 'OfflinePlayersUnconsciousBodiesHours', value: 168}
+  - {section: 'ServerSettings', option: 'ShowOnlinePlayers', value: 0}
+  - {section: 'ServerSettings', option: 'CorpsesPerPlayer', value: 10}
+  - {section: 'ServerSettings', option: 'PlayerCorpseLifeTime', value: 1800.000000}
+  - {section: 'ServerSettings', option: 'NPCCorpseLifeTime', value: 600.000000}
+  - {section: 'ServerSettings', option: 'ItemRepairMinimumDurability', value: 0.100000}
+  - {section: 'ServerSettings', option: 'ItemRepairDurabilityLossByRepairkitTier', value: '(0.200000, 0.200000, 0.150000, 0.100000, 0.050000, 0.025000)'}
+  - {section: 'ServerSettings', option: 'ItemRepairDurabilityLossPenaltyChance', value: 1.000000}
+  - {section: 'ServerSettings', option: 'ItemConvertionMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'ThrallConversionMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'FuelBurnTimeMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'CraftingCostMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'StaminaRegenerationTime', value: 3.750000}
+  - {section: 'ServerSettings', option: 'StaminaExhaustionTime', value: 3.750000}
+  - {section: 'ServerSettings', option: 'StaminaStaticRegenRateMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'StaminaMovingRegenRateMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'PlayerStaminaRegenSpeedScale', value: 1.000000}
+  - {section: 'ServerSettings', option: 'StaminaOnConsumeRegenPause', value: 1.300000}
+  - {section: 'ServerSettings', option: 'StaminaOnExhaustionRegenPause', value: 2.750000}
+  - {section: 'ServerSettings', option: 'ThrallScoutingTimeMinutes', value: 10.000000}
+  - {section: 'ServerSettings', option: 'ThrallMinDistanceAwayFromHome', value: 5000.000000}
+  - {section: 'ServerSettings', option: 'ThrallTeleportingCooldown', value: 10.000000}
+  - {section: 'ServerSettings', option: 'MinionPopulationBaseValue', value: 50}
+  - {section: 'ServerSettings', option: 'MinionPopulationPerPlayer', value: 5}
+  - {section: 'ServerSettings', option: 'MinionOverpopulationCleanup', value: 60}
+  - {section: 'ServerSettings', option: 'MinionOverpopulationAllowed', value: 10}
+  - {section: 'ServerSettings', option: 'EnableFollowerDbno', value: true}
+  - {section: 'ServerSettings', option: 'UseMinionPopulationLimit', value: false}
+  - {section: 'ServerSettings', option: 'EnableFollowerRescueOnLandClaimOnly', value: true}
+  - {section: 'ServerSettings', option: 'EnableFollowerRescueInBuildExclusionZone', value: false}
+  - {section: 'ServerSettings', option: 'FollowerRescueCooldown', value: 3600}
+  - {section: 'ServerSettings', option: 'DamageCooldownBeforeRescue', value: 600}
+  - {section: 'ServerSettings', option: 'ThrallCorruptionRemovalMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'PlayerCorruptionGainMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'PlayerCorruptionGainFromSorceryMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'AnimalPenCraftingTimeMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'FeedBoxRangeMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'BuildingDamageMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'PathFollowingSendsAngularVelocity', value: false}
+  - {section: 'ServerSettings', option: 'UnconsciousTimeSeconds', value: 1800.000000}
+  - {section: 'ServerSettings', option: 'ConciousnessDamageMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'ThrallDamageToPlayersMultiplier', value: 0.500000}
+  - {section: 'ServerSettings', option: 'ThrallDamageToNPCsMultiplier', value: 0.5}
+  - {section: 'ServerSettings', option: 'DisableBuildingAbandonment', value: true}
+  - {section: 'ServerSettings', option: 'MaxBuildingDecayTime', value: 1296000.000000}
+  - {section: 'ServerSettings', option: 'MaxDecayTimeToAutoDemolish', value: 604800.000000}
+  - {section: 'ServerSettings', option: 'ThrallDecayTime', value: 1296000.000000}
+  - {section: 'ServerSettings', option: 'DisableThrallDecay', value: true}
+  - {section: 'ServerSettings', option: 'BuildingDecayTimePerScore', value: 5400.000000}
+  - {section: 'ServerSettings', option: 'BuildingDecayTimeMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'DecayCleanupTimeMultiplier', value: 2.000000}
+  - {section: 'ServerSettings', option: 'DecayBonusTimeRate', value: 600.000000}
+  - {section: 'ServerSettings', option: 'DecayShowBuildingScore', value: false}
+  - {section: 'ServerSettings', option: 'EnableTargetLock', value: true}
+  - {section: 'ServerSettings', option: 'EnableFatalities', value: true}
+  - {section: 'ServerSettings', option: 'CachedLandClaimRadiusMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'ValidatePhysNavWalkWithRaycast', value: true}
+  - {section: 'ServerSettings', option: 'LocalNavMeshVisualizationFrequency', value: -1.000000}
+  - {section: 'ServerSettings', option: 'LocalLandClaimVisualizationFrequency', value: -1.000000}
+  - {section: 'ServerSettings', option: 'LocalLandClaimVisualizationRadius', value: 3000}
+  - {section: 'ServerSettings', option: 'LocalLandClaimVisualizationChannel', value: 0}
+  - {section: 'ServerSettings', option: 'UseLocalQuadraticAngularVelocityPrediction', value: false}
+  - {section: 'ServerSettings', option: 'LQAVPUseTime', value: 0.150000}
+  - {section: 'ServerSettings', option: 'LQAVPFadeTime', value: 0.100000}
+  - {section: 'ServerSettings', option: 'LQAVPMethod', value: 2}
+  - {section: 'ServerSettings', option: 'NetworkSimulatedSmoothRotationTimeWithLQAVP', value: 0.100000}
+  - {section: 'ServerSettings', option: 'EnableClanMarkers', value: true}
+  - {section: 'ServerSettings', option: 'ValidatePlayerStats', value: false}
+  - {section: 'ServerSettings', option: 'AllowedTimeUndermesh', value: -1.000000}
+  - {section: 'ServerSettings', option: 'AllowedDistanceUndermeshSquared', value: 490000.000000}
+  - {section: 'ServerSettings', option: 'CapCharacterLayoutScalarParams', value: false}
+  - {section: 'ServerSettings', option: 'EventLogPvPCauserPrivacy', value: 2}
+  - {section: 'ServerSettings', option: 'EventLogPvECauserPrivacy', value: 1}
+  - {section: 'ServerSettings', option: 'serverVoiceChat', value: 1}
+  - {section: 'ServerSettings', option: 'AvatarsDisabled', value: false}
+  - {section: 'ServerSettings', option: 'RestrictAvatarSummoningTime', value: false}
+  - {section: 'ServerSettings', option: 'AvatarSummoningTimeWeekdayStart', value: 0}
+  - {section: 'ServerSettings', option: 'AvatarSummoningTimeWeekdayEnd', value: 0}
+  - {section: 'ServerSettings', option: 'AvatarSummoningTimeWeekendStart', value: 0}
+  - {section: 'ServerSettings', option: 'AvatarSummoningTimeWeekendEnd', value: 0}
+  - {section: 'ServerSettings', option: 'AvatarLifetime', value: 600.000000}
+  - {section: 'ServerSettings', option: 'AvatarSummonTime', value: 60.000000}
+  - {section: 'ServerSettings', option: 'MaxDeathMapMarkers', value: 3}
+  - {section: 'ServerSettings', option: 'IsBattlEyeEnabled', value: false, comment: 'Disable for linux'}
+  - {section: 'ServerSettings', option: 'IsVACEnabled', value: false, comment: 'Disable for linux'}
+  - {section: 'ServerSettings', option: 'CanImportDirectlyFromSameServer', value: false}
+  - {section: 'ServerSettings', option: 'ServerTransferServersWhitelist', value: ''}
+  - {section: 'ServerSettings', option: 'MaxAllowedPing', value: 0}
+  - {section: 'ServerSettings', option: 'AllowFamilySharedAccount', value: true}
+  - {section: 'ServerSettings', option: 'RegionAllowAfrica', value: true}
+  - {section: 'ServerSettings', option: 'RegionAllowAsia', value: true}
+  - {section: 'ServerSettings', option: 'RegionAllowCentralEurope', value: true}
+  - {section: 'ServerSettings', option: 'RegionAllowEasternEurope', value: true}
+  - {section: 'ServerSettings', option: 'RegionAllowWesternEurope', value: true}
+  - {section: 'ServerSettings', option: 'RegionAllowNorthAmerica', value: true}
+  - {section: 'ServerSettings', option: 'RegionAllowOceania', value: true}
+  - {section: 'ServerSettings', option: 'RegionAllowSouthAmerica', value: true}
+  - {section: 'ServerSettings', option: 'RegionBlockList', value: ''}
+  - {section: 'ServerSettings', option: 'ServerModList', value: ''}
+  - {section: 'ServerSettings', option: 'BuildingPickupEnabled', value: true}
+  - {section: 'ServerSettings', option: 'PoiProtectionEnabled', value: false}
+  - {section: 'ServerSettings', option: 'EventSystemEnabled', value: true}
+  - {section: 'ServerSettings', option: 'StabilityLossMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'BuildingValidationEnabled', value: false}
+  - {section: 'ServerSettings', option: 'AllowBuildingAnywhere', value: false}
+  - {section: 'ServerSettings', option: 'HealthbarVisibilityDistance', value: 15000.000000}
+  - {section: 'ServerSettings', option: 'ServerMergeOutgoingTime', value: 0}
+  - {section: 'ServerSettings', option: 'ServerMergeDestination', value: ''}
+  - {section: 'ServerSettings', option: 'DisableChatFormatting', value: false}
+  - {section: 'ServerSettings', option: 'EnableLoginQueue', value: true}
+  - {section: 'ServerSettings', option: 'DisconnectionGraceTime', value: 180}
+  - {section: 'ServerSettings', option: 'bCanBeDamaged', value: true}
+  # All options below are not explicit set in default installs.
+  - {section: 'ServerSettings', option: 'PurgeNPCBuildingDamageMultiplier', value: '(5.0, 5.0, 10.0, 15.0, 20.0, 25.0)'}
+  - {section: 'ServerSettings', option: 'VocalVisibilityDurationInMinutes', value: 5}
+  - {section: 'ServerSettings', option: 'EnableAutoFacingOnAttack', value: true}
+  - {section: 'ServerSettings', option: 'InitialPurgeDelay', value: 15.000000}
+  - {section: 'ServerSettings', option: 'LogoutCharactersRemainInTheWorld', value: true}
+  - {section: 'ServerSettings', option: 'OverrideDecayMaxBuildingPieces', value: 6}
+  - {section: 'ServerSettings', option: 'OverrideDecayTime', value: 3600}
+  - {section: 'ServerSettings', option: 'AdminPassword', value: 'changeme'}
+  - {section: 'ServerSettings', option: 'PlayerFoodMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'PlayerWaterMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'PlayerIdleThirstMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'PlayerActiveThirstMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'PlayerOfflineThirstMultiplier', value: 0.000000}
+  - {section: 'ServerSettings', option: 'PlayerIdleHungerMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'PlayerActiveHungerMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'PlayerOfflineHungerMultiplier', value: 0.000000}
+  - {section: 'ServerSettings', option: 'ShieldDurabilityMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'NoOwnership', value: false}
+  - {section: 'ServerSettings', option: 'BuildingRadialDestructionForceMultiplier', value: 500.000000}
+  - {section: 'ServerSettings', option: 'DurabilityMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'DropEquipmentOnDeath', value: true}
+  - {section: 'ServerSettings', option: 'EverybodyCanLootCorpse', value: false}
+  - {section: 'ServerSettings', option: 'TetheringMinLimit', value: 12000.0}
+  - {section: 'ServerSettings', option: 'TetheringMaxLimit', value: 102000.0}
+  - {section: 'ServerSettings', option: 'CoopTetheringLimit', value: 52000.0}
+  - {section: 'ServerSettings', option: 'TetheringRangeDelta', value: 2000.0}
+  - {section: 'ServerSettings', option: 'DayCycleSpeedScale', value: 1.000000}
+  - {section: 'ServerSettings', option: 'DayTimeSpeedScale', value: 1.000000}
+  - {section: 'ServerSettings', option: 'NightTimeSpeedScale', value: 1.000000}
+  - {section: 'ServerSettings', option: 'DawnDuskSpeedScale', value: 1.000000}
+  - {section: 'ServerSettings', option: 'ClientCatchUpTime', value: 10.000000}
+  - {section: 'ServerSettings', option: 'UseClientCatchUpTime', value: true}
+  - {section: 'ServerSettings', option: 'PlayerHealthMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'PlayerStaminaMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'StaminaCostMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'ItemSpoilRateScale', value: 1.000000}
+  - {section: 'ServerSettings', option: 'HarvestAmountMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'ResourceRespawnSpeedMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'ChatHasGlobal', value: true}
+  - {section: 'ServerSettings', option: 'ChatLocalRadius', value: 5000.000000}
+  - {section: 'ServerSettings', option: 'ChatMaxMessageLength', value: 512}
+  - {section: 'ServerSettings', option: 'ChatFloodControlAheadCounter', value: 10}
+  - {section: 'ServerSettings', option: 'EnableSandStorm', value: true}
+  - {section: 'ServerSettings', option: 'ClanMaxSize', value: 30}
+  - {section: 'ServerSettings', option: 'IsLoadErrorsFatal', value: false}
+  - {section: 'ServerSettings', option: 'IPBlackList', value: '("8.8.8.8","8.8.4.4")'}
+  - {section: 'ServerSettings', option: 'PurgeLevel', value: 6}
+  - {section: 'ServerSettings', option: 'PurgeDelay', value: 5}
+  - {section: 'ServerSettings', option: 'RestrictPurgeTime', value: false}
+  - {section: 'ServerSettings', option: 'PurgeRestrictionWeekdayStart', value: 1800}
+  - {section: 'ServerSettings', option: 'PurgeRestrictionWeekdayEnd', value: 2200}
+  - {section: 'ServerSettings', option: 'PurgeRestrictionWeekendStart', value: 1800}
+  - {section: 'ServerSettings', option: 'PurgeRestrictionWeekendEnd', value: 2200}
+  - {section: 'ServerSettings', option: 'MinPurgeOnlinePlayers', value: 0}
+  - {section: 'ServerSettings', option: 'ClanPurgeTrigger', value: 42000}
+  - {section: 'ServerSettings', option: 'ClanScoreUpateFrequency', value: 15}
+  - {section: 'ServerSettings', option: 'PurgeDuration', value: 30}
+  - {section: 'ServerSettings', option: 'PurgePreparationTime', value: 10}
+  - {section: 'ServerSettings', option: 'AllowBuilding', value: false}
+  - {section: 'ServerSettings', option: 'EnablePurge', value: true}
+  - {section: 'ServerSettings', option: 'PlayerBuildingDamageMultiplier', value: ' = 0.01'}
+  - {section: 'ServerSettings', option: 'OverrideDecayTime', value: 3600}
+  - {section: 'ServerSettings', option: 'EnableWhitelist', value: false}
+  - {section: 'ServerSettings', option: 'EnableBanCheck', value: true}
+  # Isle of Siptah expanded options.
+  - {section: 'ServerSettings', option: 'StormEnabled', value: true}
+  - {section: 'ServerSettings', option: 'ElderThingsEnabled', value: true}
+  - {section: 'ServerSettings', option: 'ElderThingsIdleLifespan', value: 30.000000}
+  - {section: 'ServerSettings', option: 'SiegeElderThingsEnabled', value: false}
+  - {section: 'ServerSettings', option: 'StormCooldown', value: 105.000000}
+  - {section: 'ServerSettings', option: 'StormAccumulationTime', value: 1.000000}
+  - {section: 'ServerSettings', option: 'StormDuration', value: 15.000000}
+  - {section: 'ServerSettings', option: 'StormDissipationTime', value: 1.000000}
+  - {section: 'ServerSettings', option: 'StormEnduranceDrainMultiplier', value: 0.000000}
+  - {section: 'ServerSettings', option: 'ElderThingSpawnRate', value: 1.000000}
+  - {section: 'ServerSettings', option: 'StormTimeWeekdayStart', value: '0000'}
+  - {section: 'ServerSettings', option: 'StormTimeWeekdayEnd', value: 2359}
+  - {section: 'ServerSettings', option: 'StormTimeWeekendStart', value: '0000'}
+  - {section: 'ServerSettings', option: 'StormTimeWeekendEnd', value: 2359}
+  - {section: 'ServerSettings', option: 'StormMinimumOnlinePlayers', value: 0}
+  - {section: 'ServerSettings', option: 'StormBuildingAllowed', value: true}
+  - {section: 'ServerSettings', option: 'StormMapBlocker', value: true}
+  - {section: 'ServerSettings', option: 'EnableBuildingDestructionCapsules', value: false}
+  - {section: 'ServerSettings', option: 'ServerTransferEnabled', value: false}
+  # These are feature ID's to blacklist, format: ("ID", "ID", "ID")
+  - {section: 'ServerSettings', option: 'FeatsBlacklist', value: ''}
+  - {section: 'ServerSettings', option: 'CanDamagePlayerOwnedStructuresPeriod', value: 120}
+  - {section: 'ServerSettings', option: 'ElderThingSiegeDamageMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'MinimumBuildingSizeToBeSieged', value: 41}
+  - {section: 'ServerSettings', option: 'AmbientElderThingRespawnRate', value: 1.000000}
+  - {section: 'ServerSettings', option: 'SiegeElderThingRespawnRate', value: 1.000000}
+  - {section: 'ServerSettings', option: 'StormBuildingDamageRateMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'MaxAmbientElderThings', value: 700}
+  - {section: 'ServerSettings', option: 'MaxSiegeElderThings', value: 5}
+  - {section: 'ServerSettings', option: 'MaxAmbushElderThings', value: 200}
+  - {section: 'ServerSettings', option: 'ElderThingSiegeBuildingSizeMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'StormBuildingDamageEnabled', value: false}
+  - {section: 'ServerSettings', option: 'SiegeElderThingMapMarkers', value: false}
+  - {section: 'ServerSettings', option: 'MinimumStormDamageBuildingPieces', value: 0}
+  - {section: 'ServerSettings', option: 'StormBuildingDamageMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'VaultRefreshTime', value: 10}
+  - {section: 'ServerSettings', option: 'VaultRefreshDeviation', value: 2}
+  - {section: 'ServerSettings', option: 'SurgeDeviationMin', value: 60}
+  - {section: 'ServerSettings', option: 'SurgeDeviationMax', value: 60}
+  - {section: 'ServerSettings', option: 'SurgeSacrificeRequirementMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'SurgeDespawnTimer', value: 90}
+  - {section: 'ServerSettings', option: 'AltarModuleActiveTimeMultiplier', value: 1.000000}
+  - {section: 'ServerSettings', option: 'RandomSurgesCountMin', value: 6}
+  - {section: 'ServerSettings', option: 'RandomSurgesCountMax', value: 10}
+  - {section: 'ServerSettings', option: 'DecoupleSurgeFromStorm', value: false}
+  - {section: 'ServerSettings', option: 'DecoupledSurgeCooldown', value: 5}

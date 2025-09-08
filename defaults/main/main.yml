@@ -1,30 +1,88 @@
 ---
 ###############################################################################
-# Steam Role Configuration (~2GB)
+# Conan Exiles
 ###############################################################################
-# Install steamcmd with additional dependencies for running windows servers.
-# Preconfigure server settings may be deployed by enabling specific games or
-# manually installed after the role is applied.
+# Players  CPU           Memory   Disk
+# 10       2c/2t @3.0Ghz 8GB      6.5GB (excluding mods, DB growth)
+# 35       4c/4t @3.1Ghz 8GB      6.5GB (excluding mods, DB growth)
+# 50       4c/8t @3.5Ghz 12GB     6.5GB (excluding mods, DB growth)
+# 70       4c/8t @4.0Ghz 12GB     6.5GB (excluding mods, DB growth)
 #
-# Preconfigured servers will install all files and services required to run a
-# game.
+# Reference:
+# * https://www.conanexiles.com/dedicated-servers/
+# * https://conanexiles.fandom.com/wiki/Dedicated_Server_Setup:_Linux_and_Wine
+# * https://r-pufky.github.io/docs/game/conan/index.html
+# * https://github.com/r-pufky/steam/blob/master/docs/examples/conan-exiles.md
 
-# User that steam will run under. Assumes externally managed.
-steam_user:  'steam'
-steam_group: 'steam'
+# Root install location. Default: '/home/steam/conan_exiles'.
+conan_exiles_srv_root: '/home/steam/conan_exiles'
 
-# Create 'steam' user if not detected? See: vars/main.yml.
-steam_create_user: false
+# Additional steamcmd options to use during app_update. Default: ''.
+conan_exiles_srv_extra_opts: ''
 
-# Install wine if enabled. May be automatically enabled if a preconfigured
-# game is enabled. Default: true.
-steam_wine_enable: false
+# Update Conan Exiles server?
+#
+# Mods typically lag behind server updates. Modded servers may wish to disable
+# updates until all mods are confirmed working.
+#
+# Default: True.
+conan_exiles_srv_update_server: true
 
-# Wine release to install (stable, devel, staging). Default: 'stable'.
-steam_wine_release: 'stable'
+# Update Conan Exiles Settings?
+#
+# Settings updates must be done atomically and may be very slow for large
+# configs. Disable to skip setting updates (useful for patches without settings
+# changes).
+#
+# Default: True.
+conan_exiles_srv_update_settings: true
 
-# Enable CAP_NET_RAW to allow applications that need to send and receive raw IP
-# packets to do so. This is disabled by default because it carries a potential
-# security risk, and the vast majority of applications do not need that
-# capability; though some wine applications/games my need it. Default: false.
-steam_wine_raw_network_enable: false
+# Validation delay (seconds).
+#
+# Specific machines may be slower to start dedicated server, resulting in
+# validation checks failing. This introduces a small delay to allow service
+# time to report running. 0 Disables.
+#
+# Default: 4 (seconds).
+conan_exiles_srv_validate_delay: 4
+
+# Server launch options.
+#
+# Command line options passed to dedicated server. Use only options that must
+# be set for service to start, and all others in conan_exiles_cfg_*.
+#
+# Special Case:
+# * Automatically provides (Do not use): nosteamclient, game, server, log.
+#
+# Default: [].
+conan_exiles_srv_launch_options: []
+
+###############################################################################
+# Conan Exiles Backup
+###############################################################################
+
+# Root backup location. Default: '/srv/backup/conan_exiles'.
+conan_exiles_srv_backup_root: '/srv/backup/conan_exiles'
+
+# Enable user management of media files?
+#
+# Use steam_srv_user (inferred from r_pufky.game.steam results) to execute
+# media management commands. Role applies media permissions using 'root' by
+# default. For mounted data locations (NFS with squashed mounts, mapped
+# container mounts, etc) the local root user will not have sufficient
+# privileges to modify these files.
+#
+# Applies to:
+# * conan_exiles_srv_backup_root
+#
+# Default: False.
+conan_exiles_srv_user_data_manage_enable: false
+
+# Enable daily database backups? Default: False.
+conan_exiles_srv_backup_enable: false
+
+# Include mod packages in backups? Default: False.
+conan_exiles_srv_backup_mods_enable: false
+
+# Backup schedule (systemd TIME format). Default: '1d' (daily).
+conan_exiles_srv_backup_schedule: '1d'

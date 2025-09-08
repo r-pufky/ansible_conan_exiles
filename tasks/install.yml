@@ -1,0 +1,124 @@
+---
+# yamllint disable rule:line-length
+###############################################################################
+# Install
+###############################################################################
+# Create service and backup directories, configuration files, and copy mods if
+# enabled.
+#
+# Generates:
+#   _conan_exiles: dict - Role runtime specific config.
+#
+# Reference:
+# * https://conanexiles.fandom.com/wiki/Dedicated_Server_Setup:_Linux_and_Wine#General_notes
+# * https://forums.funcom.com/t/hosting-a-dedicated-server-for-isle-of-siptah/136857
+# * https://www.conanexiles.com/dedicated-servers/
+# yamllint enable rule:line-length
+
+- name: 'Install | steamcmd'
+  ansible.builtin.import_role:
+    name: 'r_pufky.game.steam'
+  vars:
+    steam_platform: '{{ conan_exiles_role_platform }}'
+    steam_srv_wine_enable: true
+
+- name: 'Install | cache steam user'
+  ansible.builtin.set_fact:
+    _conan_exiles:
+      user: '{{ _steam_srv_user.raw }}'
+      uid: '{{ _steam_srv_user.role_uid }}'
+      group: '{{ _steam_srv_group.raw }}'
+      gid: '{{ _steam_srv_group.role_gid }}'
+      home: '{{ _steam_srv_user.role_home }}'
+      share: '{{ _steam_srv_user.role_share }}'
+      ini: '{{
+          conan_exiles_srv_root ~ "/ConanSandbox/Saved/Config/WindowsServer"
+        }}'
+      mods: '{{ conan_exiles_srv_root ~ "/ConanSandbox/Mods" }}'
+      mod_list:
+        '{{ conan_exiles_srv_root ~ "/ConanSandbox/Mods/modlist.txt" }}'
+      workshop: '{{
+          conan_exiles_srv_root ~
+          "/steamapps/workshop/content/" ~
+          conan_exiles_role_client_app_id
+        }}'
+      saves: '{{ conan_exiles_srv_root ~ "/ConanSandbox/Saved" }}'
+      binary: '{{
+          conan_exiles_srv_root ~
+          "/ConanSandbox/Binaries/Win64/ConanSandboxServer-Win64-Shipping.exe"
+        }}'
+
+- name: 'Install | create server directory'
+  ansible.builtin.file:
+    path: '{{ item }}'
+    owner: '{{ _conan_exiles.uid }}'
+    group: '{{ _conan_exiles.gid }}'
+    mode: '0775'  # Game enforced.
+    state: 'directory'
+  loop:
+    - '{{ conan_exiles_srv_root }}'
+    - '{{ _conan_exiles.ini }}'
+    - '{{ _conan_exiles.mods }}'
+
+- name: 'Install | create backup directory'
+  when: conan_exiles_srv_backup_enable
+  ansible.builtin.file:
+    path: '{{ conan_exiles_srv_backup_root }}'
+    owner: '{{ _conan_exiles.uid }}'
+    group: '{{ _conan_exiles.gid }}'
+    mode: '0755'
+    state: 'directory'
+  become: true
+  become_user: '{{
+      _conan_exiles.user
+      if conan_exiles_srv_user_data_manage_enable else
+      "root"
+    }}'
+
+- name: 'Install | update server'
+  when: conan_exiles_srv_update_server
+  block:
+    - name: 'Install | updating server 🗘'
+      ansible.builtin.debug:
+        msg: |
+          ╭───────────────────────────────────────────────────────────────────╮
+          │                                                                   │
+          │      Server is being updated. This will take a few minutes.       │
+          │                                                                   │
+          ├───────────────────────────────────────────────────────────────────╯
+          │ ~4.5GB to synchronize.
+
+    - name: 'Install | update server {{ conan_exiles_role_app_id }}'
+      ansible.builtin.shell: >-
+        /usr/games/steamcmd
+        +@sSteamCmdForcePlatformType {{ conan_exiles_role_platform }}
+        +force_install_dir {{ conan_exiles_srv_root }}
+        +login anonymous
+        +app_update {{ conan_exiles_role_app_id }}
+        {{ conan_exiles_srv_extra_opts }}
+        +quit
+      args:
+        executable: '/bin/bash'
+        chdir: '{{ _conan_exiles.home }}'
+      changed_when: false
+      become: true
+      become_user: '{{ _conan_exiles.user }}'
+
+    - name: 'Install | remove modlist.txt'
+      ansible.builtin.file:
+        path: '{{ _conan_exiles.mod_list }}'
+        state: 'absent'
+
+    - name: 'Install | mods 🗘'
+      ansible.builtin.debug:
+        msg: |
+          ╭───────────────────────────────────────────────────────────────────╮
+          │                                                                   │
+          │       Mods are being updated. This will take a few minutes.       │
+          │                                                                   │
+          ├───────────────────────────────────────────────────────────────────╯
+          │ {{ conan_exiles_cfg_mods_list | length }} to synchronize.
+
+    - name: 'Install | mods'
+      ansible.builtin.include_tasks: 'mods.yml'
+      loop: '{{ conan_exiles_cfg_mods_list }}'

@@ -1,0 +1,50 @@
+---
+- name: 'Verify'
+  hosts: 'all'
+  gather_facts: false
+  tasks:
+    - name: 'Verify | /home/steam/conan_exiles'
+      ansible.builtin.include_role:
+        name: 'r_pufky.lib.tests'
+        tasks_from: 'file.yml'
+      vars:
+        test_name: 'Verify | /home/steam/conan_exiles'
+        test_file: '/home/steam/conan_exiles'
+        test_owner: 'steam'
+        test_group: 'steam'
+        test_mode: '0775'
+        test_state: 'directory'
+        test_diff: true
+
+    - name: 'Verify | game configs'
+      ansible.builtin.include_role:
+        name: 'r_pufky.lib.tests'
+        tasks_from: 'copy.yml'
+      vars:
+        test_name: 'Verify | game configs | {{ item }}'
+        test_src: 'files/{{ item }}'
+        test_file: '{{
+            "/home/steam/conan_exiles/ConanSandbox/" ~
+            "Saved/Config/WindowsServer/" ~ item
+          }}'
+        test_owner: 'steam'
+        test_group: 'steam'
+        test_mode: '0644'
+        test_diff: true
+      loop:
+        - 'Engine.ini'
+        - 'Game.ini'
+        - 'ServerSettings.ini'
+
+    - name: 'Verify | modlist.txt'
+      ansible.builtin.include_role:
+        name: 'r_pufky.lib.tests'
+        tasks_from: 'copy.yml'
+      vars:
+        test_name: 'Verify | modlist.txt'
+        test_src: 'files/modlist.txt'
+        test_file: '/home/steam/conan_exiles/ConanSandbox/Mods/modlist.txt'
+        test_owner: 'steam'
+        test_group: 'steam'
+        test_mode: '0644'
+        test_diff: true

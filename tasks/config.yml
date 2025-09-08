@@ -1,0 +1,180 @@
+---
+###############################################################################
+# Config
+###############################################################################
+# Server will automatically populate any required .ini file if it does not
+# exist on service start. Any pre-existing .ini file will not be touched and
+# assumed correct.
+#
+# Only set configuration files if they are defined.
+#
+# Documentation for linux systemd services is very outdated. Checking service
+# against documentation will not line up. Only check if there are new options.
+#
+# Reference:
+# * https://developer.valvesoftware.com/wiki/7_Days_to_Die_Dedicated_Server
+
+- name: 'Config | set Engine.ini'
+  when: conan_exiles_srv_update_settings
+  ansible.builtin.include_role:
+    name: 'r_pufky.lib.utils'
+    tasks_from: 'atomic_ini.yml'
+  vars:
+    ini: '{{ conan_exiles_cfg_engine }}'
+    path: '{{ _conan_exiles.ini ~ "/Engine.ini" }}'
+    no_extra_spaces: true
+    owner: '{{ _conan_exiles.uid }}'
+    group: '{{ _conan_exiles.gid }}'
+    mode: '0644'
+
+- name: 'Config | set Game.ini'
+  when: conan_exiles_srv_update_settings
+  ansible.builtin.include_role:
+    name: 'r_pufky.lib.utils'
+    tasks_from: 'atomic_ini.yml'
+  vars:
+    ini: '{{ conan_exiles_cfg_game }}'
+    path: '{{ _conan_exiles.ini ~ "/Game.ini" }}'
+    no_extra_spaces: true
+    owner: '{{ _conan_exiles.uid }}'
+    group: '{{ _conan_exiles.gid }}'
+    mode: '0644'
+
+- name: 'Config | set ServerSettings.ini'
+  when: conan_exiles_srv_update_settings
+  ansible.builtin.include_role:
+    name: 'r_pufky.lib.utils'
+    tasks_from: 'atomic_ini.yml'
+  vars:
+    ini: '{{ conan_exiles_cfg_server }}'
+    path: '{{ _conan_exiles.ini ~ "/ServerSettings.ini" }}'
+    no_extra_spaces: true
+    owner: '{{ _conan_exiles.uid }}'
+    group: '{{ _conan_exiles.gid }}'
+    mode: '0644'
+
+- name: 'Config | disable modlist.txt'
+  when: conan_exiles_cfg_mods_list | length == 0
+  ansible.builtin.file:
+    dest: '{{ _conan_exiles.mod_list }}'
+    state: 'absent'
+
+- name: 'Config | create service'
+  ansible.builtin.include_role:
+    name: 'r_pufky.deb.systemd'
+  vars:
+    systemd_daemon_reload_enable: true
+    systemd_services:
+      - name: 'conan_exiles'
+        state: 'present'
+        drop_in: false
+        unit:
+          description: 'Conan Exiles Dedicated Server'
+          after:
+            - 'network.target'
+        service:
+          type: 'simple'
+          restart_sec: '5s'
+          exec_start_pre:
+            - >-
+              /usr/games/steamcmd
+              +@sSteamCmdForcePlatformType {{ conan_exiles_role_platform }}
+              +force_install_dir {{ conan_exiles_srv_root }}
+              +login anonymous
+              +app_update {{ conan_exiles_role_app_id }}
+              {{ conan_exiles_srv_extra_opts }}
+              +quit
+          exec_start:
+            - >-
+              /usr/bin/xvfb-run
+              --auto-servernum wine
+              {{ _conan_exiles.binary }}
+              {{ conan_exiles_srv_launch_options | join(" ") }}
+          kill_signal: 'SIGINT'
+          restart: 'always'
+        exec:
+          user: '{{ _conan_exiles.user }}'
+          group: '{{ _conan_exiles.group }}'
+          working_directory: '{{ conan_exiles_srv_root }}'
+          environment:
+            - var: 'WINEARCH'
+              value: 'win64'
+            - var: 'WINEPREFIX'
+              value: '{{ _conan_exiles.home ~ "/.wine" }}'
+            - var: 'LD_LIBRARY_PATH'
+              value:
+                '{{ conan_exiles_srv_root }}:{{ conan_exiles_srv_root }}/bin'
+        install:
+          wanted_by:
+            - 'multi-user.target'
+
+- name: 'Config | create backup service'
+  when: conan_exiles_srv_backup_enable
+  ansible.builtin.include_role:
+    name: 'r_pufky.deb.systemd'
+  vars:
+    systemd_daemon_reload_enable: true
+    systemd_services:
+      - name: 'conan_exiles_backup'
+        state: 'present'
+        drop_in: false
+        unit:
+          description: 'Conan Exiles backup.'
+          requires:
+            - 'conan_exiles_backup.timer'
+        service:
+          type: 'simple'
+          exec_start:
+            - >-
+              /usr/bin/tar -cvJf
+              "{{ conan_exiles_srv_backup_root }}/$(date --iso-8601).tar.xz"
+              "{{ _conan_exiles.saves }}"
+              "{{
+                  _conan_exiles.mods
+                  if conan_exiles_srv_backup_mods_enable else
+                  ''
+                }}"
+        exec:
+          user: '{{ _conan_exiles.user }}'
+          group: '{{ _conan_exiles.group }}'
+          working_directory: '{{ conan_exiles_srv_root }}'
+    systemd_timers:
+      - name: 'conan_exiles_backup'
+        state: 'present'
+        drop_in: false
+        unit:
+          description: 'Conan Exiles backup timer.'
+        timer:
+          unit: 'conan_exiles_backup.service'
+          on_boot_sec: '{{ conan_exiles_srv_backup_schedule | default("1d") }}'
+        install:
+          wanted_by:
+            - 'timers.target'
+
+- name: 'Config | disable backup service'
+  when: not conan_exiles_srv_backup_enable
+  ansible.builtin.include_role:
+    name: 'r_pufky.deb.systemd'
+  vars:
+    systemd_daemon_reload_enable: true
+    systemd_services:
+      - name: 'conan_exiles_backup'
+        drop_in: false
+        state: 'absent'
+    systemd_timers:
+      - name: 'conan_exiles_backup'
+        drop_in: false
+        state: 'absent'
+
+- name: 'Config | flush handlers'
+  ansible.builtin.meta: 'flush_handlers'
+
+- name: 'Config | start services'
+  ansible.builtin.systemd:
+    name: '{{ item }}'
+    enabled: true
+    daemon_reload: true
+    state: 'started'
+  failed_when: false
+  loop:
+    - 'conan_exiles.service'

@@ -1,0 +1,13 @@
+---
+###############################################################################
+# Prep
+###############################################################################
+# Service may not exist if first install. Ensure server directory is created.
+
+- name: 'Prep | stop services'
+  ansible.builtin.systemd:
+    name: '{{ item }}'
+    state: 'stopped'
+  failed_when: false
+  loop:
+    - 'conan_exiles.service'

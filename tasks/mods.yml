@@ -1,0 +1,55 @@
+---
+# yamllint disable rule:line-length
+###############################################################################
+# Install
+###############################################################################
+# Mods are automatically downloaded and installed. Only listed mods are
+# enabled.
+#
+# * Mod list generated in specified list order.
+# * '*' is automatically pre-pended to the mod name for loading.
+
+- name: 'Install | mods | update cache {{ item }}'
+  ansible.builtin.shell: >-
+    /usr/games/steamcmd
+    +@sSteamCmdForcePlatformType {{ conan_exiles_role_platform }}
+    +force_install_dir {{ conan_exiles_srv_root }}
+    +login anonymous
+    workshop_download_item {{ conan_exiles_role_client_app_id }} {{ item }}
+    +quit
+  args:
+    executable: '/bin/bash'
+    chdir: '{{ _conan_exiles.home }}'
+  changed_when: false
+  become: true
+  become_user: '{{ _conan_exiles.user }}'
+
+- name: 'Install | mods | parse mod filename'
+  ansible.builtin.find:
+    path: '{{ _conan_exiles.workshop ~ "/" ~ item }}'
+    patterns: '*.pak'
+    file_type: 'file'
+    limit: 1
+  register: _conan_exiles_mod
+
+- name:
+    'Install | mods | install {{ _conan_exiles_mod.files[0].path | basename }}'
+  ansible.builtin.copy:
+    remote_src: true
+    src: '{{ _conan_exiles_mod.files[0].path }}'
+    dest: '{{ _conan_exiles.mods ~ "/" }}'
+    owner: '{{ _conan_exiles.uid }}'
+    group: '{{ _conan_exiles.gid }}'
+    mode: '0644'
+    directory_mode: '0775'
+    force: true
+
+- name: 'Install | mods | update modlist.txt'
+  ansible.builtin.lineinfile:
+    path: '{{ _conan_exiles.mod_list }}'
+    line: '{{ "*" ~ _conan_exiles_mod.files[0].path | basename }}'
+    insertafter: 'EOF'
+    owner: '{{ _conan_exiles.uid }}'
+    group: '{{ _conan_exiles.gid }}'
+    mode: '0644'
+    create: true
