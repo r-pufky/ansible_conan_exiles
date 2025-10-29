@@ -49,12 +49,14 @@ be created using the steamcmd user from `r_pufky.game.steam`.
 
 Changes updating the configuration only can be done to speed role application:
 ``` bash
-ansible-playbook site.yml --tags conan -e 'conan_exiles_srv_update_server=false'
+ansible-playbook site.yml --tags conan \
+  -e '{"conan_exiles_srv_update_server": false}'
 ```
 
 Changes updating the server/mods only can be done to speed role application:
 ``` bash
-ansible-playbook site.yml --tags conan -e 'conan_exiles_srv_update_settings=false'
+ansible-playbook site.yml --tags conan \
+  -e '{"conan_exiles_srv_update_settings": false}'
 ```
 
 ## Development
