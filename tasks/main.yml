@@ -1,9 +1,19 @@
 ---
 - name: 'Prep'
-  ansible.builtin.include_tasks: 'prep.yml'
+  ansible.builtin.import_tasks: 'prep.yml'
 - name: 'Install'
-  ansible.builtin.include_tasks: 'install.yml'
+  ansible.builtin.import_tasks: 'install.yml'
+
+- name: 'Update'
+  when: conan_exiles_flg_update or not conan_exiles__cfg._is_installed
+  ansible.builtin.import_tasks: 'update.yml'
+
 - name: 'Config'
-  ansible.builtin.include_tasks: 'config.yml'
-- name: 'Validate'
-  ansible.builtin.include_tasks: 'validate.yml'
+  when: conan_exiles_flg_config
+  ansible.builtin.import_tasks: 'config.yml'
+
+- name: 'Backup'
+  ansible.builtin.import_tasks: 'backup.yml'
+
+- name: 'Start'
+  ansible.builtin.import_tasks: 'start.yml'

@@ -16,7 +16,7 @@
 # * https://forums.funcom.com/t/hosting-a-dedicated-server-for-isle-of-siptah/136857/4
 # yamllint disable rule:line-length
 
-conan_exiles_srv_ports:
+conan_exiles_ports:
   - proto: 'udp'
     from_ip: 'any'
     to_port: 7777

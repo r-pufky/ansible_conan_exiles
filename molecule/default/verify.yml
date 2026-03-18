@@ -3,48 +3,41 @@
   hosts: 'all'
   gather_facts: false
   tasks:
-    - name: 'Verify | /home/steam/conan_exiles'
-      ansible.builtin.include_role:
-        name: 'r_pufky.lib.tests'
-        tasks_from: 'file.yml'
-      vars:
-        test_name: 'Verify | /home/steam/conan_exiles'
-        test_file: '/home/steam/conan_exiles'
-        test_owner: 'steam'
-        test_group: 'steam'
-        test_mode: '0775'
-        test_state: 'directory'
-        test_diff: true
-
-    - name: 'Verify | game configs'
-      ansible.builtin.include_role:
-        name: 'r_pufky.lib.tests'
-        tasks_from: 'copy.yml'
-      vars:
-        test_name: 'Verify | game configs | {{ item }}'
-        test_src: 'files/{{ item }}'
-        test_file: '{{
-            "/home/steam/conan_exiles/ConanSandbox/" ~
-            "Saved/Config/WindowsServer/" ~ item
+    - name: 'Prepare | import role variables'
+      ansible.builtin.include_vars:
+        file: '{{
+            lookup("env", "MOLECULE_PROJECT_DIRECTORY") ~ "/vars/main.yml"
           }}'
-        test_owner: 'steam'
-        test_group: 'steam'
-        test_mode: '0644'
-        test_diff: true
-      loop:
-        - 'Engine.ini'
-        - 'Game.ini'
-        - 'ServerSettings.ini'
 
-    - name: 'Verify | modlist.txt'
+    - name: '{{ "Verify | test | " ~ conan_exiles___app._mod_file }}'
       ansible.builtin.include_role:
-        name: 'r_pufky.lib.tests'
+        name: 'r_pufky.data.test'
         tasks_from: 'copy.yml'
       vars:
-        test_name: 'Verify | modlist.txt'
-        test_src: 'files/modlist.txt'
-        test_file: '/home/steam/conan_exiles/ConanSandbox/Mods/modlist.txt'
+        test_name: '{{ "Verify | test | " ~ conan_exiles___app._mod_file }}'
+        test_src: '{{
+            lookup("env", "MOLECULE_PROJECT_DIRECTORY") ~
+            "/molecule/default/files/modlist.txt"
+          }}'
+        test_file: '{{ conan_exiles___app._mod_file }}'
         test_owner: 'steam'
         test_group: 'steam'
         test_mode: '0644'
         test_diff: true
+
+    # Just spot check a value in the list of files. Server automatically adds
+    # and re-writes configuration on new builds and config values. All files
+    # are deployed at the same time.
+    - name: '{{
+          "Verify | test | " ~ conan_exiles___app._ini_dir ~ "/Engine.ini"
+        }}'
+      ansible.builtin.lineinfile:
+        name: '{{ conan_exiles___app._ini_dir ~ "/Engine.ini" }}'
+        line:
+          'ServerDefaultMap=/Game/DLC_EXT/DLC_Siptah/Maps/DLC_Isle_of_Siptah'
+        state: 'present'
+      check_mode: true
+      register: conan_exiles__test
+      failed_when: >
+        conan_exiles__test is changed or
+        conan_exiles__test is failed

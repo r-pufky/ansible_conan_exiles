@@ -1,0 +1,28 @@
+---
+###############################################################################
+# Backup
+###############################################################################
+# Deploy backup services.
+
+- name: 'Backup | systemd | enable backup'
+  when: conan_exiles_flg_backup
+  notify: 'Handlers | enable conan_exiles_backup'
+  ansible.builtin.template:
+    src: '{{ "systemd/" ~ item ~ ".j2" }}'
+    dest: '{{ "/etc/systemd/system/" ~ item }}'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  loop:
+    - 'conan_exiles_backup.service'
+    - 'conan_exiles_backup.timer'
+
+- name: 'Backup | systemd | disable backup'
+  when: not conan_exiles_flg_backup
+  notify: 'Handlers | disable conan_exiles_backup'
+  ansible.builtin.file:
+    path: '{{ "/etc/systemd/system/" ~ item }}'
+    state: 'absent'
+  loop:
+    - 'conan_exiles_backup.service'
+    - 'conan_exiles_backup.timer'

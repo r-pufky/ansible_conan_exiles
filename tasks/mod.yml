@@ -1,0 +1,54 @@
+---
+###############################################################################
+# Mod Configuration
+###############################################################################
+# Mods are automatically downloaded and installed. Only listed mods are
+# enabled.
+#
+# * Mod list generated in specified list order.
+# * '*' is automatically pre-pended to the mod name for loading.
+
+- name: '{{ "Mod | steamcmd | update " ~ item }}'
+  ansible.builtin.shell: '{{
+      conan_exiles__cfg._steamcmd ~
+      "+workshop_download_item " ~ conan_exiles__srv._store_id ~ " " ~
+      item ~ " +quit"
+    }}'
+  args:
+    executable: '/bin/bash'
+    chdir: '{{ steam__ctx._home }}'
+  changed_when: false
+  become: true
+  become_user: '{{ steam__ctx._user }}'
+
+- name: '{{ "Mod | filesystem | parse " ~ item }}'
+  ansible.builtin.find:
+    path: '{{ conan_exiles__cfg._workshop_dir ~ "/" ~ item }}'
+    patterns: '*.pak'
+    file_type: 'file'
+    limit: 1
+  register: conan_exiles__mod
+
+- name: '{{
+      "Mod | filesystem | install " ~
+      conan_exiles__mod.files[0].path | basename
+    }}'
+  ansible.builtin.copy:
+    remote_src: true
+    src: '{{ conan_exiles__mod.files[0].path }}'
+    dest: '{{ conan_exiles__cfg._mod_dir ~ "/" }}'
+    owner: '{{ steam__ctx._uid }}'
+    group: '{{ steam__ctx._gid }}'
+    mode: '0644'
+    directory_mode: '0775'
+    force: true
+
+- name: '{{ "Mod | filsystem | update " ~ conan_exiles__cfg._mod_file }}'
+  ansible.builtin.lineinfile:
+    path: '{{ conan_exiles__cfg._mod_file }}'
+    line: '{{ "*" ~ conan_exiles__mod.files[0].path | basename }}'
+    insertafter: 'EOF'
+    owner: '{{ steam__ctx._uid }}'
+    group: '{{ steam__ctx._gid }}'
+    mode: '0644'
+    create: true

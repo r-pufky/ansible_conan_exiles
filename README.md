@@ -1,45 +1,54 @@
 # Conan Exiles
 Conan Exiles dedicated server.
 
-## Requirements
-[supported platforms](https://github.com/r-pufky/ansible_conan_exiles/blob/main/meta/main.yml)
+## [Requirements][i]
+Requires [r_pufky.game][g] galaxy-ng collection. See
+[reference documentation][h] for troubleshooting and config variables.
+Additional source documentation for [dedicated servers][l] and
+[linux and wine][m] installs.
 
-Players | CPU           | Memory | Disk
---------|---------------|--------|----------------------------------
-10      | 2c/2t @3.0Ghz | 8GB    | 6.5GB (excluding mods, DB growth)
-35      | 4c/4t @3.1Ghz | 8GB    | 6.5GB (excluding mods, DB growth)
-50      | 4c/8t @3.5Ghz | 12GB   | 6.5GB (excluding mods, DB growth)
-70      | 4c/8t @4.0Ghz | 12GB   | 6.5GB (excluding mods, DB growth)
+  Players | CPU           | Memory | Disk
+ ---------|---------------|--------|------
+  10      | 2c/2t @3.0Ghz | 8GB    | 6.5GB (excluding mods, DB growth)
+  35      | 4c/4t @3.1Ghz | 8GB    | 6.5GB (excluding mods, DB growth)
+  50      | 4c/8t @3.5Ghz | 12GB   | 6.5GB (excluding mods, DB growth)
+  70      | 4c/8t @4.0Ghz | 12GB   | 6.5GB (excluding mods, DB growth)
 
 ## Role Variables
-[defaults](https://github.com/r-pufky/ansible_conan_exiles/tree/main/defaults/main)
+Detailed variable use documented in defaults. See usage for role operation.
 
-### Ports
-All ports and protocols have been defined for the role.
+* [defaults][j] - User configurable options.
 
-[defaults/ports.yml](https://github.com/r-pufky/ansible_conan_exiles/blob/main/defaults/main/ports.yml)
+* [ports][k] - Ports are **not** managed (defined for external use).
 
-## Dependencies
-**galaxy-ng** roles cannot be used independently. Part of
-[r_pufky.game](https://github.com/r-pufky/ansible_collection_game) collection.
+## Usage
 
-## Example Playbook
-Read defaults documentation.
-[Additional documentation](http://r-pufky.github.io/r-pufky/docs/games/conan_exiles).
+### Feature Flags
+Tasks are gated by feature flags and executed in the following order.
 
+  Step | Flag                    | Notes
+ ------|-------------------------|-------
+  1    | conan_exiles_flg_update | Update server on launch or if already installed.
+  2    | conan_exiles_flg_config | Set configuration files.
+  3    | conan_exiles_flg_backup | Enable local scheduled backup.
 
-The following example will get an instance quickly up and running, with the
-specified mods automatically downloaded and installed in order. Server will
-be created using the steamcmd user from `r_pufky.game.steam`.
+### Example Playbooks
+**All** required server configuration files will be generated on start if they
+do not exist. [Example configurations][n] have been included in the role:
+
+* **files/default** - vanilla server configuration deploy.
+* **files/siptah** - Isle of Siptah enabled with minimal configuration.
+
+#### Default Server
+
 ``` yaml
-- name: 'Conan Exiles server'
-  hosts: 'conan.example.com'
-  become: true
-  roles:
-     - 'r_pufky.game.conan_exiles'
+- name: 'Vanilla server with daily backups enabled and mods auto configured.'
+  ansible.builtin.include_role:
+     name: 'r_pufky.game.conan_exiles'
   vars:
-    conan_exiles_srv_backup_enable: true
-    conan_exiles_cfg_mods_list:
+    conan_exiles_flg_backup: true
+    conan_exiles_cfg_backup_mods: true
+    conan_exiles_cfg_mod_list:
       - 2723987721
       - 1641464108
       - 1401061998
@@ -49,42 +58,47 @@ be created using the steamcmd user from `r_pufky.game.steam`.
       - 2859016366
 ```
 
-Changes updating the configuration only can be done to speed role application:
-``` bash
-ansible-playbook site.yml --tags conan \
-  -e '{"conan_exiles_srv_update_server": false}'
-```
+#### Custom Server
+Configuration files will be interpreted as templates, allowing for vault use of
+server configuration files. Files in this directory will be sync'ed to the
+server. See [examples in files][n].
 
-Changes updating the server/mods only can be done to speed role application:
-``` bash
-ansible-playbook site.yml --tags conan \
-  -e '{"conan_exiles_srv_update_settings": false}'
+``` yaml
+- name: 'Deploy a Siptah server with custom game settings.'
+  ansible.builtin.include_role:
+     name: 'r_pufky.game.conan_exiles'
+  vars:
+    conan_exiles_cfg_dir: 'host_vars/conan.example.com/config'
+    conan_exiles_cfg_mod_list:
+      - 2723987721
+      - 1641464108
+      - 1401061998
+      - 1716717492
+      - 864199675
+      - 2869834350
+      - 2859016366
 ```
 
 ## Development
-Configure [environment](https://r-pufky.github.io/ansible_collection_docs/ansible/environment)
+Configure [environment][a].
 
-Run all unit tests:
 ``` bash
+# Run all tests.
 molecule test --all
 ```
 
-### Releases
-Release format: **{OS}-{SERVICE}-{ROLE}**
+Testing variables:
 
-Each type inherits the versioning system used; defaulting to schematic
-versioning.
+  Variable          | type | Description
+ -------------------|------|-------------
+  url_inject_enable | bool | Disable **get_url** to inject files locally.
 
-`12.0.0-2.0.3-1.0.0`
+### [Releases][b]
 
-* 12.0.0 - Debian 12 (bookworm).
-* 2.0.3 - Service/app version.
-* 1.0.0 - Role version.
-
-Releases are branched on Debian releases:
-
-* **[13.x.x](https://github.com/r-pufky/ansible_conan_exiles)**: 13 Trixie.
-* **[12.x.x](https://github.com/r-pufky/ansible_conan_exiles/tree/12.x)**: 12 Bookworm.
+  Release | Debian | Ansible | Notes
+ ---------|--------|---------|-------
+  2.x.x   | 13     | 2.20    | Ansible 2.20, feature flags, and semantic versioning.
+  1.x.x   | 12     | 2.11    | Migration from private repository.
 
 ## Issues
 Create a bug and provide as much information as possible.
@@ -92,9 +106,24 @@ Create a bug and provide as much information as possible.
 Associate pull requests with a submitted bug.
 
 ## License
-[AGPL-3.0 License](https://www.tldrlegal.com/license/gnu-affero-general-public-license-v3-agpl-3-0)
- [(direct link)](https://github.com/r-pufky/ansible_conan_exiles/blob/main/LICENSE)
+[AGPL-3.0 License][c] | [direct link][f]
 
 ## Author Information
-PGP Fingerprint: [466EEC2B67516C7117C85CE3A0BC35D16698BAB9](https://keys.openpgp.org/vks/v1/by-fingerprint/466EEC2B67516C7117C85CE3A0BC35D16698BAB9)
-| [github gist](https://gist.github.com/r-pufky/a8df36977c55b5bb20829267c4c49d22)
+PGP: [466EEC2B67516C7117C85CE3A0BC35D16698BAB9][d] | [github gist][e]
+
+
+[a]: https://r-pufky.github.io/ansible_docs
+[b]: https://semver.org/spec/v2.0.0
+[c]: https://www.tldrlegal.com/license/gnu-affero-general-public-license-v3-agpl-3-0
+[d]: https://keys.openpgp.org/vks/v1/by-fingerprint/466EEC2B67516C7117C85CE3A0BC35D16698BAB9
+[e]: https://gist.github.com/r-pufky/a8df36977c55b5bb20829267c4c49d22
+
+[f]: https://github.com/r-pufky/ansible_conan_exiles/blob/main/LICENSE
+[g]: https://github.com/r-pufky/ansible_collection_game
+[h]: http://r-pufky.github.io/docs/games/conan_exiles
+[i]: https://github.com/r-pufky/ansible_conan_exiles/blob/main/meta/main.yml
+[j]: https://github.com/r-pufky/ansible_conan_exiles/tree/main/defaults/main/main.yml
+[k]: https://github.com/r-pufky/ansible_conan_exiles/blob/main/defaults/main/ports.yml
+[l]: https://www.conanexiles.com/dedicated-servers/
+[m]: https://conanexiles.fandom.com/wiki/Dedicated_Server_Setup:_Linux_and_Wine
+[n]: https://github.com/r-pufky/ansible_conan_exiles/tree/main/files

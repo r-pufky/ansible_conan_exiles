@@ -1,0 +1,31 @@
+---
+###############################################################################
+# Handlers
+###############################################################################
+
+- name: 'Handlers | load conan_exiles_backup'
+  listen:
+    - 'Handlers | enable conan_exiles_backup'
+  ansible.builtin.systemd:
+    name: '{{ item }}'
+    enabled: true
+    daemon_reload: true
+  loop:
+    - 'conan_exiles_backup.service'
+    - 'conan_exiles_backup.timer'
+
+- name: 'Handlers | conan_exiles_backup.timer (tick)'
+  listen:
+    - 'Handlers | enable conan_exiles_backup'
+  ansible.builtin.systemd:
+    name: 'conan_exiles_backup.timer'
+    state: 'started'
+
+- name: 'Handlers | disable conan_exiles_backup'
+  ansible.builtin.systemd:
+    name: '{{ item }}'
+    enabled: false
+    state: 'stopped'
+  loop:
+    - 'conan_exiles_backup.service'
+    - 'conan_exiles_backup.timer'

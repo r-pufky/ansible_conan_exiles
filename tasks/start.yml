@@ -1,0 +1,63 @@
+---
+###############################################################################
+# Start
+###############################################################################
+# Start services and confirm they are active and running.
+
+- name: 'Start | meta | 🗘 flush timers 🗘'
+  ansible.builtin.meta: flush_handlers
+
+# Conan Exiles typically takes ~10 seconds to report active.
+- name: 'Start | systemd | conan_exiles.service'
+  ansible.builtin.systemd:
+    name: 'conan_exiles.service'
+    state: 'started'
+    enabled: true
+    daemon_reload: true
+  delay: 15
+  retries: 3
+  register: conan_exiles__service
+  until: conan_exiles__service.status.ActiveState == 'active'
+
+- name: 'Start | fact | query services'
+  ansible.builtin.service_facts:
+
+- name: 'Start | assert | conan_exiles.service enabled'
+  ansible.builtin.assert:
+    quiet: true
+    that: ansible_facts.services[item].status == 'enabled'
+    fail_msg: |
+
+      ✘ Service should be enabled.
+      {{ item }}
+  loop:
+    - 'conan_exiles.service'
+
+- name: 'Start | systemd | query conan_exiles_backup.timer'
+  when: conan_exiles_flg_backup
+  ansible.builtin.command: 'systemctl status conan_exiles_backup.timer'
+  changed_when: false
+  register: conan_exiles__cmd
+
+- name: 'Start | assert | conan_exiles_backup.timer active'
+  when: conan_exiles_flg_backup
+  ansible.builtin.assert:
+    quiet: true
+    that:
+      - conan_exiles__cmd.rc == 0
+      - '"Active: active" in conan_exiles__cmd.stdout'
+    fail_msg: |
+
+      ✘ conan_exiles_backup.timer should be active.
+
+- name: 'Start | assert | conan_exiles_backup.service enabled'
+  when: conan_exiles_flg_backup
+  ansible.builtin.assert:
+    quiet: true
+    that: ansible_facts.services[item].status == 'enabled'
+    fail_msg: |
+
+      ✘ Service should be enabled.
+      {{ item }}
+  loop:
+    - 'conan_exiles_backup.service'

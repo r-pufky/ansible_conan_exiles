@@ -1,0 +1,9 @@
+[Unit]
+Description=conan_exiles_backup.service timer.
+Requires=conan_exiles_backup.service
+
+[Timer]
+OnBootSec={{ conan_exiles__cfg._backup_schedule | default("1d") }}
+
+[Install]
+WantedBy=timers.target

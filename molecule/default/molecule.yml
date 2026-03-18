@@ -1,8 +1,13 @@
 ---
+# yamllint disable rule:line-length
 ###############################################################################
 # Default
 ###############################################################################
 # Default values result in running Conan Exiles server.
+#
+# Requirements:
+# * steam role must exist adjacent to conan_exiles.
+# * Extremely heavy test setup (~8GB). Use --destroy=never.
 #
 # Tests:
 # * Mods are installed correctly.
@@ -15,59 +20,54 @@
 dependency:
   name: 'galaxy'
 driver:
-  name: 'podman'
+  name: 'vagrant'
+  provider:
+    name: 'libvirt'
+    type: 'libvirt'
 provisioner:
   name: 'ansible'
+  connection_options:
+    ansible_ssh_user: 'vagrant'
+    ansible_become: true
   config_options:
     defaults:
       interpreter_python: 'auto_silent'
       callback_whitelist: 'profile_tasks, timer, yaml'
-    ssh_connection:
-      pipelining: false
   inventory:
     group_vars:
       all:
-        repo_testing_enable: true
-        repo_testing_versions:
-          - comment: 'winetricks'
-            version: '20250102'
-            asset: '{{
-                lookup("env", "MOLECULE_PROJECT_DIRECTORY") ~
-                "/molecule/cache/20250102.tar.gz"
-              }}'
-        conan_exiles_cfg_mods_list:
+        url_inject_enable: true
+        conan_exiles_flg_update: false
+        conan_exiles_flg_config: true
+        conan_exiles_flg_backup: true
+        conan_exiles_cfg_dir: '{{
+            lookup("env", "MOLECULE_PROJECT_DIRECTORY") ~ "/files/siptah"
+          }}'
+        conan_exiles_cfg_mod_list:
           - 2723987721
 platforms:
-  - name: 'conan_exiles-debian-13-default'
-    image: 'ghcr.io/hifis-net/debian-systemd:13'
-    systemd: 'always'
-    volumes:
-      - '/sys/fs/cgroup:/sys/fs/cgroup:ro'
-    command: '/lib/systemd/systemd'
-    pre_build_image: true
-    published_ports:
-      - '7777:7777/udp'
-      - '7777:7777/tcp'
-      - '7778:7778/udp'
-      - '27015:27015/udp'
-      - '25575:25575/tcp'
+  - name: 'conan-exiles-default'
+    box: 'debian/trixie64'
+    memory: 4096
+    cpus: 2
+    interfaces:
+      - network_name: 'private_network'
+        auto_config: true
+        type: 'dhcp'
+    instance_raw_config_args:
+      - 'vm.network "forwarded_port", guest: 7777, host: 7777, protocol: "udp"'
+      - 'vm.network "forwarded_port", guest: 7777, host: 7777, protocol: "tcp"'
+      - 'vm.network "forwarded_port", guest: 7778, host: 7778, protocol: "udp"'
+      - 'vm.network "forwarded_port", guest: 27015, host: 27015, protocol: "udp"'
+      - 'vm.network "forwarded_port", guest: 25575, host: 25575, protocol: "tcp"'
 verifier:
   name: 'ansible'
-lint: |
-  set -e
-  yamllint .
-  ansible-lint .
 scenario:
   test_sequence:
-    # - 'dependency'
-    # - 'cleanup'
     - 'destroy'
     - 'syntax'
     - 'create'
-    # - 'prepare'
+    - 'prepare'
     - 'converge'
-    # - 'idempotence'  # services always restarted.
-    # - 'side_effect'
     - 'verify'
-    # - 'cleanup'
     - 'destroy'
