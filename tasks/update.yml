@@ -3,7 +3,7 @@
 ###############################################################################
 # Install
 ###############################################################################
-# Updating will also install if not pre-existing.
+# Updating will also install if not pre-existing, and copy mods if enabled.
 #
 # Reference:
 # * https://conanexiles.fandom.com/wiki/Dedicated_Server_Setup:_Linux_and_Wine#General_notes

@@ -1,16 +1,8 @@
 ---
-# yamllint disable rule:line-length
 ###############################################################################
 # Install
 ###############################################################################
-# Create service and backup directories, configuration files, and copy mods if
-# enabled.
-#
-# Reference:
-# * https://conanexiles.fandom.com/wiki/Dedicated_Server_Setup:_Linux_and_Wine#General_notes
-# * https://forums.funcom.com/t/hosting-a-dedicated-server-for-isle-of-siptah/136857
-# * https://www.conanexiles.com/dedicated-servers/
-# yamllint enable rule:line-length
+# Create service and backup directories, configuration files.
 
 - name: 'Install | steamcmd'
   ansible.builtin.import_role:

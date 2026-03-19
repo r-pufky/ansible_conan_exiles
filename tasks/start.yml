@@ -22,13 +22,13 @@
 - name: 'Start | fact | query services'
   ansible.builtin.service_facts:
 
-- name: 'Start | assert | conan_exiles.service enabled'
+- name: 'Start | assert | services running'
   ansible.builtin.assert:
     quiet: true
-    that: ansible_facts.services[item].status == 'enabled'
+    that: ansible_facts.services[item].state == 'running'
     fail_msg: |
 
-      ✘ Service should be enabled.
+      ✘ Service failed to start.
       {{ item }}
   loop:
     - 'conan_exiles.service'
