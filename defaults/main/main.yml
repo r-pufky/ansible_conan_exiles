@@ -52,7 +52,11 @@ conan_exiles_flg_backup: false
 # * https://docs.github.com/en/authentication
 conan_exiles_srv_token: ''
 
-# Additional steamcmd options to use during app_update. Default: [].
+# Additional steamcmd options to use during app_update.
+#
+# Use 'validate' to checksum installed files for corruption.
+#
+# Default: [].
 conan_exiles_srv_update_opts: []
 
 # Server launch options.
