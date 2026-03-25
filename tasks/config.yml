@@ -11,6 +11,9 @@
 # Documentation for linux systemd services is very outdated. Checking service
 # against documentation will not line up. Only check if there are new options.
 #
+# Filetree returns a dict (instead of a list of dict) for one element. Use
+# query to guarantee a list result.
+#
 # Reference:
 # * https://conanexiles.fandom.com/wiki/Dedicated_Server_Setup:_Linux_and_Wine
 
@@ -21,9 +24,7 @@
     owner: '{{ steam__ctx._user }}'
     group: '{{ steam__ctx._group }}'
     mode: '0644'
-  loop: '{{
-      lookup("community.general.filetree", conan_exiles__cfg._cfg_dir)
-    }}'
+  loop: '{{ query("community.general.filetree", conan_exiles__cfg._cfg_dir) }}'
   loop_control:
     label: '{{ item.path }}'
   when: item.state == 'file'
