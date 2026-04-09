@@ -14,6 +14,10 @@ Additional source documentation for [dedicated servers][l] and
   50      | 4c/8t @3.5Ghz | 12GB   | 6.5GB (excluding mods, DB growth)
   70      | 4c/8t @4.0Ghz | 12GB   | 6.5GB (excluding mods, DB growth)
 
+> Tasks [potentially touching Network Mounted Filesystems][o] will be run as
+> the task user and fallback to the service user. Manage these locations
+> externally if these fail.
+
 ## Role Variables
 Detailed variable use documented in defaults. See usage for role operation.
 
@@ -36,8 +40,8 @@ Tasks are gated by feature flags and executed in the following order.
 **All** required server configuration files will be generated on start if they
 do not exist. [Example configurations][n] have been included in the role:
 
-* **files/default** - vanilla server configuration deploy.
-* **files/siptah** - Isle of Siptah enabled with minimal configuration.
+* **templates/default** - vanilla server configuration deploy.
+* **templates/siptah** - Isle of Siptah enabled with minimal configuration.
 
 #### Default Server
 
@@ -48,7 +52,7 @@ do not exist. [Example configurations][n] have been included in the role:
   vars:
     conan_exiles_flg_backup: true
     conan_exiles_cfg_backup_mods: true
-    conan_exiles_cfg_mod_list:
+    conan_exiles_cfg_mods:
       - 2723987721
       - 1641464108
       - 1401061998
@@ -68,8 +72,8 @@ server. See [examples in files][n].
   ansible.builtin.include_role:
      name: 'r_pufky.game.conan_exiles'
   vars:
-    conan_exiles_cfg_dir: 'host_vars/conan.example.com/config'
-    conan_exiles_cfg_mod_list:
+    conan_exiles_cfg_d: 'host_vars/conan.example.com/config'
+    conan_exiles_cfg_mods:
       - 2723987721
       - 1641464108
       - 1401061998
@@ -89,9 +93,9 @@ molecule test --all
 
 Testing variables:
 
-  Variable          | type | Description
- -------------------|------|-------------
-  url_inject_enable | bool | Disable **get_url** to inject files locally.
+  Variable            | Type | Description
+ ---------------------|------|-------------
+  molecule_flg_inject | bool | Disable **get_url** to inject files locally.
 
 ### [Releases][b]
 
@@ -127,3 +131,4 @@ PGP: [466EEC2B67516C7117C85CE3A0BC35D16698BAB9][d] | [github gist][e]
 [l]: https://www.conanexiles.com/dedicated-servers/
 [m]: https://conanexiles.fandom.com/wiki/Dedicated_Server_Setup:_Linux_and_Wine
 [n]: https://github.com/r-pufky/ansible_conan_exiles/tree/main/files
+[o]: https://r-pufky.github.io/ansible_docs/best_practice/patterns/#network-mounts

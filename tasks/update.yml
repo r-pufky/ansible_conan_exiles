@@ -17,10 +17,10 @@
 
       🗘 Updating ~4.5GB (~3 minutes @ 200Mbps). 🗘
 
-- name: '{{ "Update | steamcmd | update " ~ conan_exiles__srv._app_id }}'
+- name: '{{ "Update | steamcmd | update " ~ conan_exiles___release._app_id }}'
   ansible.builtin.shell: '{{
-      conan_exiles__cfg._steamcmd ~
-      "+app_update " ~ conan_exiles__srv._app_id ~ " " ~
+      conan_exiles___app._steamcmd ~
+      "+app_update " ~ conan_exiles___release._app_id ~ " " ~
       conan_exiles__srv._update_opts ~ " " ~
       "+quit"
     }}'
@@ -32,21 +32,21 @@
   become_user: '{{ steam__ctx._user }}'
 
 - name:
-    '{{ "Update | filesystem | remove " ~ conan_exiles__cfg._mod_file }}'
+    '{{ "Update | filesystem | remove " ~ conan_exiles___app._mod_list }}'
   ansible.builtin.file:
-    path: '{{ conan_exiles__cfg._mod_file }}'
+    path: '{{ conan_exiles___app._mod_list }}'
     state: 'absent'
 
 - name: 'Update | steamcmd | 🗘 install mods (~2 minutes) 🗘'
-  when: conan_exiles__cfg._mod_list | length > 0
+  when: conan_exiles__cfg._mods | length > 0
   ansible.builtin.debug:
     msg: |
 
       🗘 Updating mods (~2 minutes). 🗘
 
-      {{ conan_exiles__cfg._mod_list | length }} to synchronize.
+      {{ conan_exiles__cfg._mods | length }} to synchronize.
 
 - name: 'Update | mod'
-  when: conan_exiles__cfg._mod_list | length > 0
+  when: conan_exiles__cfg._mods | length > 0
   ansible.builtin.include_tasks: 'mod.yml'
-  loop: '{{ conan_exiles__cfg._mod_list }}'
+  loop: '{{ conan_exiles__cfg._mods }}'

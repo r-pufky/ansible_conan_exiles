@@ -19,10 +19,10 @@
       ) }}"
     conan_exiles__cfg: "{{ conan_exiles___app | r_pufky.data.v3(
 
-        _cfg_dir=conan_exiles_cfg_dir | regex_replace('\\/$', ''),
-        _mod_list=conan_exiles_cfg_mod_list,
+        _cfg_d=conan_exiles_cfg_d | regex_replace('\\/$', ''),
+        _mods=conan_exiles_cfg_mods,
         _backup_mods=conan_exiles_cfg_backup_mods,
-        _backup_dir=conan_exiles_cfg_backup_dir | regex_replace('\\/$', ''),
+        _backup_d=conan_exiles_cfg_backup_d | regex_replace('\\/$', ''),
         _backup_schedule=conan_exiles_cfg_backup_schedule,
       ) }}"
 
@@ -31,14 +31,14 @@
   ansible.builtin.assert:
     quiet: true
     that:
-      - conan_exiles__cfg._cfg_dir | length > 0
+      - conan_exiles__cfg._cfg_d | length > 0
     fail_msg: |
 
       ✘ Config source not set.
       Config source enabled but no config source defined.
 
       conan_exiles_flg_config: {{ conan_exiles_flg_config }}
-      conan_exiles_cfg_file: {{ conan_exiles__cfg._cfg_dir }}
+      conan_exiles_cfg_file: {{ conan_exiles__cfg._cfg_d }}
 
 - name: 'Prep | systemd | stop conan_exiles.service'
   ansible.builtin.systemd:

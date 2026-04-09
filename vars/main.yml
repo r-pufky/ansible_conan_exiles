@@ -29,18 +29,18 @@ conan_exiles___release: "{{ {} | r_pufky.data.v3(
 
 conan_exiles___app: "{{ {} | r_pufky.data.v3(
 
-    _root_dir='/home/steam/conan_exiles',
-    _ini_dir=(
+    _root_d='/home/steam/conan_exiles',
+    _ini_d=(
       '/home/steam/conan_exiles/ConanSandbox/Saved/Config/WindowsServer'
     ),
-    _mod_dir='/home/steam/conan_exiles/ConanSandbox/Mods',
-    _mod_file='/home/steam/conan_exiles/ConanSandbox/Mods/modlist.txt',
-    _workshop_dir=(
+    _mod_d='/home/steam/conan_exiles/ConanSandbox/Mods',
+    _mod_list='/home/steam/conan_exiles/ConanSandbox/Mods/modlist.txt',
+    _workshop_d=(
       '/home/steam/conan_exiles/steamapps/workshop/content/' ~
       conan_exiles___release._store_id
     ),
-    _save_dir='/home/steam/conan_exiles/ConanSandbox/Saved',
-    _app=(
+    _save_d='/home/steam/conan_exiles/ConanSandbox/Saved',
+    _bin=(
       '/home/steam/conan_exiles/ConanSandbox/Binaries/Win64/' ~
       'ConanSandboxServer-Win64-Shipping.exe'
     ),

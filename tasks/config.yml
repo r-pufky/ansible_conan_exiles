@@ -17,38 +17,56 @@
 # Reference:
 # * https://conanexiles.fandom.com/wiki/Dedicated_Server_Setup:_Linux_and_Wine
 
-- name: 'Config | filetree | deploy managed files'
+- name: 'Config | filetree | set managed directories'
+  ansible.builtin.file:
+    path: '{{ conan_exiles___app._ini_d ~ "/" ~ item.path }}'
+    owner: '{{ steam__ctx._user }}'
+    group: '{{ steam__ctx._group }}'
+    mode: '0755'
+    state: 'directory'
+  loop: '{{ query("community.general.filetree", conan_exiles__cfg._cfg_d) }}'
+  loop_control:
+    label: '{{ item.path }}'
+  when: item.state == 'directory'
+
+- name: 'Config | filetree | set managed files'
   ansible.builtin.template:
     src: '{{ item.src }}'
-    dest: '{{ conan_exiles__cfg._ini_dir ~ "/" ~ item.path }}'
+    dest: '{{ conan_exiles___app._ini_d ~ "/" ~ item.path }}'
     owner: '{{ steam__ctx._user }}'
     group: '{{ steam__ctx._group }}'
     mode: '0644'
-  loop: '{{ query("community.general.filetree", conan_exiles__cfg._cfg_dir) }}'
+  loop: '{{ query("community.general.filetree", conan_exiles__cfg._cfg_d) }}'
   loop_control:
     label: '{{ item.path }}'
   when: item.state == 'file'
-  register: conan_exiles__local
 
 - name: 'Config | filesystem | query remote files'
   ansible.builtin.find:
-    paths: '{{ conan_exiles__cfg._ini_dir }}'
-    file_type: 'file'
+    paths: '{{ conan_exiles___app._ini_d }}'
+    file_type: 'any'
+    hidden: true
     recurse: true
   register: conan_exiles__remote
 
-- name: 'Config | filesystem | remove unmanaged files'
+- name: 'Config | filetree | remove unmanaged files and directories'
   ansible.builtin.file:
     path: '{{ item.path }}'
     state: 'absent'
-  loop: '{{ conan_exiles__remote.files }}'
+  loop:
+    '{{ conan_exiles__remote.files | sort(attribute="path", reverse=true) }}'
   loop_control:
     label: '{{ item.path }}'
   when: >
-    item.path not in conan_exiles__local.results | map(attribute='dest') | list
+    item.path not in
+    (
+      query("community.general.filetree", conan_exiles__cfg._cfg_d) |
+      map(attribute='path') |
+      map('regex_replace', '^', conan_exiles___app._ini_d ~ "/") | list
+    )
 
-- name: '{{ "Config | filesystem | disable " ~ conan_exiles__cfg._mod_file }}'
-  when: conan_exiles__cfg._mod_list | length == 0
+- name: '{{ "Config | filesystem | disable " ~ conan_exiles___app._mod_list }}'
+  when: conan_exiles__cfg._mods | length == 0
   ansible.builtin.file:
-    dest: '{{ conan_exiles__cfg.mod_list }}'
+    dest: '{{ conan_exiles___app._mod_list }}'
     state: 'absent'

@@ -7,13 +7,13 @@ Wants=network.target
 Type=simple
 RestartSec=5s
 {% if conan_exiles_flg_update %}
-ExecStartPre={{ conan_exiles__cfg._steamcmd }} +app_update {{ conan_exiles__srv._app_id }} {{ conan_exiles__srv._update_opts }} +quit
+ExecStartPre={{ conan_exiles___app._steamcmd }} +app_update {{ conan_exiles___release._app_id }} {{ conan_exiles__srv._update_opts }} +quit
 {% endif %}
-ExecStart=/usr/bin/xvfb-run --auto-servernum --server-args='-screen 0 640x480x24:32' wine {{ conan_exiles__cfg._app }} {{ conan_exiles__srv._launch_opts }}
-WorkingDirectory={{ conan_exiles__cfg._root_dir }}
+ExecStart=/usr/bin/xvfb-run --auto-servernum --server-args='-screen 0 640x480x24:32' wine {{ conan_exiles___app._bin }} {{ conan_exiles__srv._launch_opts }}
+WorkingDirectory={{ conan_exiles___app._root_d }}
 Environment="WINEARCH=win64"
 Environment="WINEPREFIX={{ steam__ctx._home ~ '/.wine' }}"
-Environment="LD_LIBRARY_PATH={{ conan_exiles__cfg._root_dir }}:{{ conan_exiles__cfg._root_dir }}/bin"
+Environment="LD_LIBRARY_PATH={{ conan_exiles___app._root_d }}:{{ conan_exiles___app._root_d }}/bin"
 KillSignal=SIGINT
 Restart=always
 User={{ steam__ctx._user }}

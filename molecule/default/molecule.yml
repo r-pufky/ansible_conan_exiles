@@ -36,14 +36,14 @@ provisioner:
   inventory:
     group_vars:
       all:
-        url_inject_enable: true
+        molecule_flg_inject: true
         conan_exiles_flg_update: false
         conan_exiles_flg_config: true
         conan_exiles_flg_backup: true
-        conan_exiles_cfg_dir: '{{
-            lookup("env", "MOLECULE_PROJECT_DIRECTORY") ~ "/files/siptah"
+        conan_exiles_cfg_d: '{{
+            lookup("env", "MOLECULE_PROJECT_DIRECTORY") ~ "/templates/siptah"
           }}'
-        conan_exiles_cfg_mod_list:
+        conan_exiles_cfg_mods:
           - 2723987721
 platforms:
   - name: 'conan-exiles-default'

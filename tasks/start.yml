@@ -4,9 +4,6 @@
 ###############################################################################
 # Start services and confirm they are active and running.
 
-- name: 'Start | meta | 🗘 flush timers 🗘'
-  ansible.builtin.meta: flush_handlers
-
 # Conan Exiles typically takes ~10 seconds to report active.
 - name: 'Start | systemd | conan_exiles.service'
   ansible.builtin.systemd:
@@ -18,6 +15,10 @@
   retries: 3
   register: conan_exiles__service
   until: conan_exiles__service.status.ActiveState == 'active'
+
+# Conan Exiles must be started before first backup timer triggers.
+- name: 'Start | meta | 🗘 flush timers 🗘'
+  ansible.builtin.meta: flush_handlers
 
 - name: 'Start | fact | query services'
   ansible.builtin.service_facts:

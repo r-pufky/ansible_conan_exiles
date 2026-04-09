@@ -14,7 +14,7 @@
 
 - name: 'Install | filesystem | find current installation'
   ansible.builtin.stat:
-    path: '{{ conan_exiles__cfg._app }}'
+    path: '{{ conan_exiles___app._bin }}'
   register: conan_exiles__installed
 
 - name: 'Install | fact | set install state'
@@ -32,18 +32,31 @@
     mode: '0775'  # Game enforced.
     state: 'directory'
   loop:
-    - '{{ conan_exiles__cfg._root_dir }}'
-    - '{{ conan_exiles__cfg._ini_dir }}'
-    - '{{ conan_exiles__cfg._mod_dir }}'
+    - '{{ conan_exiles___app._root_d }}'
+    - '{{ conan_exiles___app._ini_d }}'
+    - '{{ conan_exiles___app._mod_d }}'
 
-- name: '{{ "Install | filesystem | set " ~ conan_exiles__cfg._backup_dir }}'
+- name: '{{ "Install | filesystem | set " ~ conan_exiles__cfg._backup_d }}'
   when: conan_exiles_flg_backup
-  ansible.builtin.file:
-    path: '{{ conan_exiles__cfg._backup_dir }}'
-    owner: '{{ steam__ctx._uid }}'
-    group: '{{ steam__ctx._gid }}'
-    mode: '0755'
-    state: 'directory'
+  block:
+    - name: '{{ "Install | filesystem | set " ~ conan_exiles__cfg._backup_d }}'
+      ansible.builtin.file:
+        path: '{{ conan_exiles__cfg._backup_d }}'
+        owner: '{{ steam__ctx._uid }}'
+        group: '{{ steam__ctx._gid }}'
+        mode: '0755'
+        state: 'directory'
+  rescue:
+    - name:
+        '{{ "Install ⛑ | filesystem | set " ~ conan_exiles__cfg._backup_d }}'
+      ansible.builtin.file:
+        path: '{{ conan_exiles__cfg._backup_d }}'
+        owner: '{{ steam__ctx._uid }}'
+        group: '{{ steam__ctx._gid }}'
+        mode: '0755'
+        state: 'directory'
+      become: true
+      become_user: '{{ steam__ctx._user }}'
 
 - name: 'Install | systemd | set conan_exiles.service'
   ansible.builtin.template:

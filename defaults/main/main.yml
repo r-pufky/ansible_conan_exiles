@@ -85,17 +85,17 @@ conan_exiles_srv_launch_opts:
 # on server startup.
 #
 # Role contains two example configurations:
-# * files/default - Vanilla auto-generated server settings.
-# * files/siptah - Isle of Siptah map enable with minimal changes for PVE.
+# * templates/default - Vanilla auto-generated server settings.
+# * templates/siptah - Isle of Siptah map enable with minimal changes for PVE.
 #
-# conan_exiles_cfg_dir: 'host_vars/conan.example.com/data/config'
+# conan_exiles_cfg_d: 'host_vars/conan.example.com/data/config'
 #
 # Default: '' (use auto-generated defaults on startup).
 #
 # Reference:
 # * https://conanexiles.fandom.com/wiki/Dedicated_Server_Setup:_Linux_and_Wine
 # * https://r-pufky.github.io/docs/games/conan_exiles
-conan_exiles_cfg_dir: ''
+conan_exiles_cfg_d: ''
 
 # List of mods to enable.
 #
@@ -106,7 +106,7 @@ conan_exiles_cfg_dir: ''
 # Special Case:
 # * Mod list auto regenerated in specified list order.
 #
-# conan_exiles_cfg_mod_list:
+# conan_exiles_cfg_mods:
 #   - 2723987721
 #   - 1641464108
 #   - 1401061998
@@ -116,7 +116,7 @@ conan_exiles_cfg_dir: ''
 #   - 2859016366
 #
 # Default: [] (disabled).
-conan_exiles_cfg_mod_list: []
+conan_exiles_cfg_mods: []
 
 # Backup
 ###############################################################################
@@ -125,7 +125,7 @@ conan_exiles_cfg_mod_list: []
 conan_exiles_cfg_backup_mods: false
 
 # Root backup location. Default: '/srv/backup/conan_exiles'.
-conan_exiles_cfg_backup_dir: '/srv/backup/conan_exiles'
+conan_exiles_cfg_backup_d: '/srv/backup/conan_exiles'
 
 # Backup schedule (systemd TIME format).
 #
