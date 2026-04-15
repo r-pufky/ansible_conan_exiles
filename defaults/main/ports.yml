@@ -10,9 +10,9 @@
 #
 # Reference:
 # * https://github.com/r-pufky/ansible_ufw
-# * https://www.conanexiles.com/dedicated-servers/
+# * https://www.conanexiles.com/dedicated-servers
 # * https://conanexiles.fandom.com/wiki/Dedicated_Server_Setup:_Linux_and_Wine
-# * https://r-pufky.github.io/docs/game/conan/index.html
+# * https://r-pufky.github.io/docs/game/conan_exiles
 # * https://forums.funcom.com/t/hosting-a-dedicated-server-for-isle-of-siptah/136857/4
 # yamllint disable rule:line-length
 
