@@ -3,7 +3,35 @@
 # Feature Flags
 ###############################################################################
 
-# 1. Force Conan Exile server updates if already installed?
+# 1. Is this role applied to a container?
+#
+# Decision: manual user setting - There is currently no good way to
+#     deterministically and consistently detect if a remote host is a
+#     container outside of common cases.
+#
+# Special Case:
+#   * deb_flg_container=true forces conan_exiles_flg_container=true.
+#
+# Default: False.
+conan_exiles_flg_container: false
+
+# 2. Force Static IP for client-download.steampowered.com?
+#
+# client-download.steampowered.com is used for internet connectivity checks and
+# to download data. CDN DNS updates may break this for up to 72 hours. steamcmd
+# will fail with 'Please confirm your network connection and try again.'.
+#
+# Enabling resolves media.steampowered.com and statically sets /etc/hosts which
+# fix this specific issue. Requires conan_exiles_flg_container=false.
+#
+# This should ONLY be used as a one-off and not set by default as changing IP's
+# will result in steamcmd breaking again in the future.
+#
+# Reference:
+# * https://r-pufky.github.io/docs/game/steam/troubleshooting
+conan_exiles_flg_cdn: false
+
+# 3. Force Conan Exile server updates if already installed?
 #
 # Mods typically lag behind server updates. Modded servers may wish to disable
 # updates until all mods are confirmed working. This disables updates during
@@ -12,10 +40,10 @@
 # Default: False.
 conan_exiles_flg_update: false
 
-# 2. Set configuration files? Default: False.
+# 4. Set configuration files? Default: False.
 conan_exiles_flg_config: false
 
-# 3. Enable scheduled server backup?
+# 5. Enable scheduled server backup?
 #
 # See conan_exiles_cfg_backup_*.
 #

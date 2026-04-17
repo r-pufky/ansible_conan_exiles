@@ -18,6 +18,10 @@ Additional source documentation for [dedicated servers][l] and
 > the task user and fallback to the service user. Manage these locations
 > externally if these fail.
 
+> VM's are highly recommended to provide strong isolation. Many servers require
+> low-level access to networking and hardware. Containers may be enabled but
+> are not supported for issues.
+
 ## Role Variables
 Detailed variable use documented in defaults. See usage for role operation.
 
@@ -30,11 +34,13 @@ Detailed variable use documented in defaults. See usage for role operation.
 ### Feature Flags
 Tasks are gated by feature flags and executed in the following order.
 
-  Step | Flag                    | Notes
- ------|-------------------------|-------
-  1    | conan_exiles_flg_update | Update server on launch or if already installed.
-  2    | conan_exiles_flg_config | Set configuration files.
-  3    | conan_exiles_flg_backup | Enable local scheduled backup.
+  Step | Flag                       | Notes
+ ------|----------------------------|-------
+  1    | conan_exiles_flg_container | Deploy container specific settings.
+  2    | conan_exiles_flg_cdn       | Statically set Steam CDN IP.
+  3    | conan_exiles_flg_update    | Update server on launch or if already installed.
+  4    | conan_exiles_flg_config    | Set configuration files.
+  5    | conan_exiles_flg_backup    | Enable local scheduled backup.
 
 ### Example Playbooks
 **All** required server configuration files will be generated on start if they

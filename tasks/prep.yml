@@ -5,6 +5,12 @@
 # Only use data annotations in role after merging role, defaults, runtime data.
 # Service may not exist if first install.
 
+- name:
+    'Prep | fact | force conan_exiles_flg_container=true (deb_flg_container)'
+  when: deb_flg_container | default(false)
+  ansible.builtin.set_fact:
+    conan_exiles_flg_container: true
+
 - name: 'Prep | fact | record start time'
   ansible.builtin.set_fact:
     conan_exiles__srv: "{{ conan_exiles___release | r_pufky.data.v3(
@@ -17,7 +23,7 @@
           join(' ')
         ),
       ) }}"
-    conan_exiles__cfg: "{{ conan_exiles___app | r_pufky.data.v3(
+    conan_exiles__cfg: "{{ {} | r_pufky.data.v3(
 
         _cfg_d=conan_exiles_cfg_d | regex_replace('\\/$', ''),
         _mods=conan_exiles_cfg_mods,
