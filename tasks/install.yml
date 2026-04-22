@@ -60,6 +60,15 @@
       become: true
       become_user: '{{ steam__ctx._user }}'
 
+- name:
+    '{{ "Install | filesystem | set " ~ conan_exiles___app._update_server }}'
+  ansible.builtin.template:
+    src: 'update_server.j2'
+    dest: '{{ conan_exiles___app._update_server }}'
+    owner: '{{ steam__ctx._user }}'
+    group: '{{ steam__ctx._group }}'
+    mode: '0755'
+
 - name: 'Install | systemd | set conan_exiles.service'
   ansible.builtin.template:
     src: 'systemd/conan_exiles.service.j2'

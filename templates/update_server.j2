@@ -1,0 +1,5 @@
+#!/bin/bash
+#
+# Update deployed steam server and validate install.
+
+{{ conan_exiles___app._steamcmd }} +app_update {{ conan_exiles___release._app_id }} {{ conan_exiles__srv._update_opts }} +quit

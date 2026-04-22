@@ -44,6 +44,7 @@ conan_exiles___app: "{{ {} | r_pufky.data.v3(
       '/home/steam/conan_exiles/ConanSandbox/Binaries/Win64/' ~
       'ConanSandboxServer-Win64-Shipping.exe'
     ),
+    _update_server='/home/steam/conan_exiles/update_server',
     _steamcmd=(
       '/usr/games/steamcmd ' ~
       '+@sSteamCmdForcePlatformType ' ~ conan_exiles___release._platform ~
